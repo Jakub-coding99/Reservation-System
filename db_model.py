@@ -6,5 +6,5 @@ class Clients(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String)
     date= db.Column(db.Date)
-    time = db.Column(db.DateTime)
+    time = db.Column(db.Time)
     phone = db.Column(db.Integer)
