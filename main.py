@@ -55,15 +55,27 @@ def delete_client(id):
     db.session.commit()
     return redirect(url_for("home"))
 
-@app.route("/change/<int:id>")
+@app.route("/change/<int:id>", methods = ["GET","POST"])
 def change_reservation(id):
     to_change = db.session.query(Clients).get(id)
-    print(to_change.name)
+    
+    if request.method == "POST":
+        new_client_info = {
+            "name" : request.form.get("name"),
+            "date" : request.form.get("date"),
+            "time" : request.form.get("time"),
+            "phone" : request.form.get("phone")
 
+        }
+        print(new_client_info)
+       
+        return redirect(url_for("home"))
+
+    return render_template("edit_form.html", id = id, to_change = to_change )
     
-    
-    
-    return redirect(url_for("home"))
+
+   
+
 
 
 def send_message():

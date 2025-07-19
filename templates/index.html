@@ -6,6 +6,7 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -45,7 +46,9 @@
             <td>{{client.date}}</td>
             <td>{{client.time}}</td>
             <td>{{client.phone}}</td>
-            <td><a href="{{url_for('change_reservation', id = client.id)}}">Změnit</a>
+            <td><div>
+                
+            <a href="{{url_for('change_reservation', id = client.id)}}">Změnit</a>
             <a href="{{url_for('delete_client', id = client.id)}}">Odstranit</a></td>
            
            
@@ -58,7 +61,8 @@
 </table>
 </div> 
 
-
 </body>
+
+
 </html>
 
