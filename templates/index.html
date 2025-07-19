@@ -1,0 +1,15 @@
+<form action="{{ url_for('save_reservation') }}" method="post">
+          <label>Jméno</label>
+          <input type="text" name="name" class="form-control" required>
+
+          <label>Datum</label>
+          <input type="date" name="date" class="form-control" required>
+
+          <label>Čas rezervace</label>
+          <input type="time" name="time" class="form-control" required>
+
+          <label>Telefon</label>
+          <input type="tel" name="phone" class="form-control" required>
+
+          <button type="submit">Odeslat</button>
+        </form>

@@ -20,7 +20,7 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    return render_template("calendar.html")
+    return render_template("index.html")
 
 @app.route("/reservation", methods = ["GET", "POST"])
 def save_reservation():
@@ -30,7 +30,7 @@ def save_reservation():
         "time" : request.form.get("time"),
         "phone" : request.form.get("phone")
     }
-    
+    print(reservation)
     # format_date = "%Y-%m-%d"
     # datetime_date = datetime.datetime.strptime(reservation["date"], format_date)
     
@@ -43,9 +43,7 @@ def save_reservation():
     
     return redirect(url_for("home"))
 
-@app.route("/cal")
-def cal():
-    return render_template("calendar.html")
+
 
 def send_message():
     acc_sid = os.getenv("acc_sid")
@@ -60,15 +58,6 @@ def send_message():
 
     print(message.body)
 
-@app.route("/events")
-def events():
-    return jsonify([
-        {
-            "title": "Ukázková událost",
-            "start": "2025-07-21T10:00:00",
-            "end": "2025-07-21T12:00:00"
-        }
-    ])
 
 if app.name == "main":
     app.run(debug=True)
