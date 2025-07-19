@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from db_model import db, Clients
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -30,21 +30,22 @@ def save_reservation():
         "time" : request.form.get("time"),
         "phone" : request.form.get("phone")
     }
-    print(type(reservation["phone"]))
     
     # format_date = "%Y-%m-%d"
     # datetime_date = datetime.datetime.strptime(reservation["date"], format_date)
     
-    
     # x = reservation["time"].split(":")
     # datetime_time = datetime.time(hour=int(x[0]), minute=int(x[1]))
     
-
     # new_client = Clients(name = reservation["name"], date = datetime_date, time = datetime_time, phone = int(reservation["phone"]))
     # db.session.add(new_client)
     # db.session.commit()
     
     return redirect(url_for("home"))
+
+@app.route("/cal")
+def cal():
+    return render_template("calendar.html")
 
 def send_message():
     acc_sid = os.getenv("acc_sid")
@@ -59,7 +60,15 @@ def send_message():
 
     print(message.body)
 
-send_message()
+@app.route("/events")
+def events():
+    return jsonify([
+        {
+            "title": "Ukázková událost",
+            "start": "2025-07-21T10:00:00",
+            "end": "2025-07-21T12:00:00"
+        }
+    ])
 
 if app.name == "main":
     app.run(debug=True)

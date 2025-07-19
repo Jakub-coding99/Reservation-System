@@ -1,0 +1,24 @@
+#calendar, #week-calendar {
+  max-width: 320px;
+  margin: 10px auto;
+}
+
+.fc-daygrid-day-number {
+  font-size: 0.8rem;
+}
+
+.fc-daygrid-day {
+  padding: 4px !important;
+}
+
+.fc-header-toolbar {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+}
+
+.fc-button {
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  min-width: 30px;
+}
+
