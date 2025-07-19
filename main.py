@@ -20,7 +20,7 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("calendar.html")
 
 @app.route("/reservation", methods = ["GET", "POST"])
 def save_reservation():
