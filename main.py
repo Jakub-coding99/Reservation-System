@@ -59,6 +59,7 @@ def delete_client(id):
 def change_reservation(id):
     to_change = db.session.query(Clients).get(id)
     
+    
     if request.method == "POST":
         new_client_info = {
             "name" : request.form.get("name"),
@@ -67,7 +68,19 @@ def change_reservation(id):
             "phone" : request.form.get("phone")
 
         }
-        print(new_client_info)
+        date  = new_client_info["date"]
+       
+        time = new_client_info["time"].split(":")
+        new_date = datetime.datetime.strptime(new_client_info["date"],"%Y-%m-%d")
+        new_time = datetime.time(hour=int(time[0]), minute=int(time[1]))
+        to_change.name = new_client_info["name"]
+        to_change.date = new_date
+        to_change.time = new_time
+        to_change.phone = new_client_info["phone"]
+        db.session.commit()
+
+                         
+        
        
         return redirect(url_for("home"))
 
