@@ -4,6 +4,9 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import datetime
 from twilio.rest import Client
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 
 dotenv_path = find_dotenv()
@@ -12,6 +15,7 @@ load_dotenv(dotenv_path)
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("db_url")
+app.config["SECRET_KEY"] = os.getenv("secret_key")
 
 db.init_app(app)
 
@@ -92,32 +96,47 @@ def choose_tomorrow_reservation():
     with app.app_context():
         all_clients = Clients.query.filter_by(date = day_after_today,msg_sent = False).all()
         for client in all_clients:
+            str_time = client.time.strftime("%H:%M")
             client_info = {
                     "phone" : client.phone,
-                    "reservation_time" : client.time
+                    "reservation_time" : str_time
                 }
             client.msg_sent = True
             db.session.commit()
             clients_to_send_notification.append(client_info)
         return clients_to_send_notification
-                 
 
-   
+       
+def automatic_sending_msg():
+    scheduler = BackgroundScheduler()
+    # scheduler.add_job(simulate,"cron",hour = 0,minute = 55, second = 20)
+    scheduler.add_job(simulate,"interval",seconds = 20, id = "job1")
+    scheduler.start()
+    
 
-
-def send_message():
-    acc_sid = os.getenv("acc_sid")
-    auth_token = os.getenv("auth_token")
-    client = Client(acc_sid, auth_token)
-
-    message = client.messages.create(
-        body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-        from_="+18483595203",
-        to="+420730671753",
-    )
-
-    print(message.body)
-
+def simulate():
+    clients = choose_tomorrow_reservation()
+    for client in clients:
+        print("Dobrý den,\n"
+        f"Připomínam vám rezervaci na zítra v {client['reservation_time']}.\n"
+        "S pozdravem kadeřnice")
+        
 
 if app.name == "main":
-    app.run(debug=True)
+    automatic_sending_msg()
+    app.run(use_reloader = False)
+
+
+
+# def send_message():
+#     acc_sid = os.getenv("acc_sid")
+#     auth_token = os.getenv("auth_token")
+#     client = Client(acc_sid, auth_token)
+
+#     message = client.messages.create(
+#         body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+#         from_="+18483595203",
+#         to="+420730671753",
+#     )
+
+#     print(message.body)
