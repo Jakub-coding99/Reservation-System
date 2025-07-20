@@ -5,6 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 import datetime
 from twilio.rest import Client
 
+
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
 
@@ -37,7 +38,7 @@ def save_reservation():
     x = reservation["time"].split(":")
     datetime_time = datetime.time(hour=int(x[0]), minute=int(x[1]))
     
-    new_client = Clients(name = reservation["name"], date = datetime_date, time = datetime_time, phone = int(reservation["phone"]))
+    new_client = Clients(name = reservation["name"], date = datetime_date, time = datetime_time, phone = int(reservation["phone"]), msg_sent = False)
     db.session.add(new_client)
     db.session.commit()
     
@@ -68,8 +69,7 @@ def change_reservation(id):
             "phone" : request.form.get("phone")
 
         }
-        date  = new_client_info["date"]
-       
+        
         time = new_client_info["time"].split(":")
         new_date = datetime.datetime.strptime(new_client_info["date"],"%Y-%m-%d")
         new_time = datetime.time(hour=int(time[0]), minute=int(time[1]))
@@ -79,16 +79,30 @@ def change_reservation(id):
         to_change.phone = new_client_info["phone"]
         db.session.commit()
 
-                         
-        
-       
+            
         return redirect(url_for("home"))
 
     return render_template("edit_form.html", id = id, to_change = to_change )
     
+def choose_tomorrow_reservation():
+    time_now = datetime.datetime.now().date()
+    day_after_today = time_now + datetime.timedelta(days=1)
+    clients_to_send_notification = []
+    
+    with app.app_context():
+        all_clients = Clients.query.filter_by(date = day_after_today,msg_sent = False).all()
+        for client in all_clients:
+            client_info = {
+                    "phone" : client.phone,
+                    "reservation_time" : client.time
+                }
+            client.msg_sent = True
+            db.session.commit()
+            clients_to_send_notification.append(client_info)
+        return clients_to_send_notification
+                 
 
    
-
 
 
 def send_message():

@@ -8,3 +8,4 @@ class Clients(db.Model):
     date= db.Column(db.Date)
     time = db.Column(db.Time)
     phone = db.Column(db.Integer)
+    msg_sent = db.Column(db.Boolean)
