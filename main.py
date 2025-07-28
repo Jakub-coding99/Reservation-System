@@ -3,9 +3,8 @@ from db_model import db, Clients
 import os
 from dotenv import load_dotenv, find_dotenv
 import datetime
-from twilio.rest import Client
-import time
 from apscheduler.schedulers.background import BackgroundScheduler
+
 
 
 
@@ -120,11 +119,13 @@ def simulate():
         print("Dobrý den,\n"
         f"Připomínam vám rezervaci na zítra v {client['reservation_time']}.\n"
         "S pozdravem kadeřnice")
-        
+
+
+ 
 
 if app.name == "main":
     automatic_sending_msg()
-    app.run(use_reloader = False)
+    app.run(use_reloader = False, debug = True)
 
 
 
