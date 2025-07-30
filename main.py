@@ -4,6 +4,9 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
+from msg import send_message
+import time
+
 
 
 
@@ -106,19 +109,40 @@ def choose_tomorrow_reservation():
         return clients_to_send_notification
 
        
+def delete_after_reservation():
+    
+        today = datetime.datetime.now().date()
+        time_now = datetime.datetime.now().time()
+        
+        with app.app_context():
+            clients = Clients.query.filter_by(date = today).all()
+            for client in clients:
+                reservation_cl = client.time
+                dt = datetime.datetime.combine(datetime.datetime.now(), reservation_cl)
+                dt_plus = dt + datetime.timedelta(minutes=30)
+                reservation = dt_plus.time()
+                time_now_toformat = datetime.datetime.now().time()
+                time_now = time_now_toformat.replace(microsecond=0)
+                
+                if time_now > reservation:
+                    db.session.delete(client)
+                    db.session.commit()
+                time.sleep(1)
+            
+
+
+
 def automatic_sending_msg():
     scheduler = BackgroundScheduler()
-    # scheduler.add_job(simulate,"cron",hour = 0,minute = 55, second = 20)
-    scheduler.add_job(simulate,"interval",seconds = 20, id = "job1")
+    scheduler.add_job(automate_msg,"cron",hour = 17,minute = 00, second = 00, id = "job1")
+    scheduler.add_job(delete_after_reservation,"interval",minute = 30, id = "job2")
     scheduler.start()
     
 
-def simulate():
-    clients = choose_tomorrow_reservation()
-    for client in clients:
-        print("Dobrý den,\n"
-        f"Připomínam vám rezervaci na zítra v {client['reservation_time']}.\n"
-        "S pozdravem kadeřnice")
+def automate_msg():
+    if choose_tomorrow_reservation() != None:
+        send_message(clients=choose_tomorrow_reservation())
+
 
 
  
@@ -129,15 +153,9 @@ if app.name == "main":
 
 
 
-# def send_message():
-#     acc_sid = os.getenv("acc_sid")
-#     auth_token = os.getenv("auth_token")
-#     client = Client(acc_sid, auth_token)
-
-#     message = client.messages.create(
-#         body="Join Earth's mightiest heroes. Like Kevin Bacon.",
-#         from_="+18483595203",
-#         to="+420730671753",
-#     )
-
-#     print(message.body)
+# def simulate():
+#     clients = choose_tomorrow_reservation()
+#     for client in clients:
+#         print("Dobrý den,\n"
+#         f"Připomínam vám rezervaci na zítra v {client['reservation_time']}.\n"
+#         "S pozdravem kadeřnice")
