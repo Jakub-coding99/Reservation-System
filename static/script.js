@@ -14,31 +14,35 @@ document.addEventListener('DOMContentLoaded', function() {
         calendar.render();
       });
 
-async function getData() {
-    const url =  "http://127.0.0.1:5000/calendarapi"
-    const response = await fetch(url)
-    const result = await response.json()
-    let p = document.createElement("p")
-    p.textContent = JSON.stringify(result)
-    document.querySelector("body").appendChild(p)
-
-}
-
-getData()
 
 
 let form = document.querySelector("#my-form").addEventListener("submit", (event) => {
     event.preventDefault()
-    let name = event.target.name.value
-    let date = event.target.date.value
-    let time = event.target.time.value
-    let phone = event.target.phone.value
-    let userdata = {
-        name : name,
-        date : date,
-        time:time,
-        phone:phone
+    userData = {
+    name : event.target.name.value,
+    date : event.target.date.value,
+    time : event.target.time.value,
+    phone : event.target.phone.value,
     }
-    console.log(userdata)
+
+  fetch("/api_python/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(userData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('server response:', data);
+  })
+  .catch(error => {
+    console.error('eror:', error);
+  });
+    event.target.name.value = ""
+    event.target.date.value = ""
+    event.target.time.value = ""
+    event.target.phone.value = ""
 
 })
+    

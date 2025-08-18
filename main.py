@@ -54,12 +54,15 @@ def save_reservation():
 def render_calendar():
     return render_template("calendar.html")
 
-@app.route("/calendarapi")
-def data_calendar():
-    d = {"name":"jakub"}
-    data = jsonify(d)
 
-    return data
+
+@app.route("/api_python/submit", methods = ["POST"])
+def submit_data():
+    data = request.get_json()
+    print(data)
+    return jsonify({"status" : "ok"})
+
+
 
 
 
