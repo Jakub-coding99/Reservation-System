@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request,jsonify
 from db_model import db, Clients
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -49,6 +49,19 @@ def save_reservation():
     db.session.commit()
     
     return redirect(url_for("home"))
+
+@app.route("/calendar")
+def render_calendar():
+    return render_template("calendar.html")
+
+@app.route("/calendarapi")
+def data_calendar():
+    d = {"name":"jakub"}
+    data = jsonify(d)
+
+    return data
+
+
 
 def get_reservation():
     with app.app_context():
@@ -134,23 +147,20 @@ def delete_after_reservation():
 
 def automatic_sending_msg():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(automate_msg,"cron",hour = 17,minute = 00, second = 00, id = "job1")
-    scheduler.add_job(delete_after_reservation,"interval",minute = 30, id = "job2")
+    scheduler.add_job(automate_msg, "cron", hour=17, minute=0, second=0, id="job1")
+    scheduler.add_job(delete_after_reservation, "interval", minutes=30, id="job2")
     scheduler.start()
-    
+
 
 def automate_msg():
-    if choose_tomorrow_reservation() != None:
-        send_message(clients=choose_tomorrow_reservation())
+    clients = choose_tomorrow_reservation()
+    if clients:
+        send_message(clients=clients)
 
 
-
- 
-
-if app.name == "main":
+if __name__ == "__main__":
     automatic_sending_msg()
-    app.run(use_reloader = False, debug = True)
-
+    app.run(use_reloader=False, debug=True)
 
 
 # def simulate():
