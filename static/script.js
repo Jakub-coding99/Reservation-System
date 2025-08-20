@@ -11,11 +11,25 @@ document.addEventListener('DOMContentLoaded', function() {
                  
            },
           eventClick : function(info){
-            document.querySelector(".modal-body").textContent = `${info.event.title},${info.event.start},${info.event.extendedProps.time},${info.event.extendedProps.phone}`
+            document.querySelector(".modal-body").textContent = info.event.title
+            document.querySelector(".modal-body").textContent =info.event.start
+            document.querySelector(".modal-body").textContent =info.event.extendedProps.time
+            document.querySelector(".modal-body").textContent =info.event.extendedProps.phone
             
             new bootstrap.Modal(document.querySelector("#eventModal")).show()
+            
+            
+            let button = document.querySelector("#delete-button").addEventListener("click", (event) => {
+            let id = info.event.extendedProps.id
+            deleteFromDB(id)
+            
+          })
+            
+
+         
+         
           },
-           
+      
           events :  async function (fetchInfo, successCallback, failureCallback) {
             try{
 
@@ -28,7 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
                           start : ev["date"],
                           extendedProps:{
                             phone : ev["phone"],
-                            time: ev["time"]
+                            time: ev["time"],
+                            id : ev["id"]
                           }     
                 }
               events.push(event)
@@ -39,8 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
                       }}
            
         });
-
-         
       calendar.render();
       });
 
@@ -72,9 +85,16 @@ let form = document.querySelector("#my-form").addEventListener("submit", async (
 })
 
 
+async function deleteFromDB(id) {
+  user = {userID : id}
+  await fetch("/delete_id", {
+    method : "POST",
+    headers : {
+       "Content-Type": "application/json"},
+    body : JSON.stringify(user)
+  })
+  calendar.refetchEvents()
   
-
-
-
+}
 
 

@@ -94,8 +94,21 @@ def event_send():
         return jsonify(list_of_clients)
 
 
+@app.route("/delete_id", methods = ["POST"])
+def delete_user():
+    data = request.get_json()
+    id = data["userID"]
+    with app.app_context():
+        client_to_del = Clients.query.get(id)
+        db.session.delete(client_to_del)
+        db.session.commit()
+        return jsonify({"status":"user succesfuly deleted"})
+        
+@app.route("/user_patch", methods = ["PATCH"])
+def patch_user():
+    pass
 
-
+    
 
 
 
