@@ -10,7 +10,10 @@
     
   </head>
   <body>
-    <form id = "my-form" class="form-horizontal bg-white p-4 ">
+   <div class = "page">
+    <div class="container p-4" >
+
+    <form id = "my-form" class="form-horizontal bg-white p-4">
         
 
         <div class="row mb-3">
@@ -45,10 +48,14 @@
           <button type="submit" class="btn btn-success w-25 fw-bold">Odeslat</button>
         </div>
       </form>
+   </div>
     
     
-
-   <div id='calendar'></div> 
+    
+      <div class="container bg-white p-4">
+        <div id='calendar'></div> 
+      </div>
+   
 
    
     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
@@ -64,14 +71,25 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="form" id ="editForm">
+          <form >
+            <input  class="form-control" type="text" id = form-name name = "name">
+            <input class="form-control"  type="date" id = form-date name = "date">
+            <input class="form-control" type="time" id = form-time name = "time">
+            <input class="form-control" type="text" id = form-phone name ="phone">
+            <input type="submit" id="submitButton" class="d-none" value="Uložit">
+          </form>
+
+
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" id = "delete-button" class="btn btn-primary">Smazat</button>
+        <button type="button" class="btn btn-primary" id="patch-button" >Upravit</button>
+        <button type="button" id = "delete-button" class="btn btn-primary" data-bs-dismiss="modal">Smazat</button>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <script src="static/script.js"></script> 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request,jsonify
+from flask import Flask, render_template, request,jsonify
 from db_model import db, Clients
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -9,7 +9,7 @@ import time
 
 
 
-
+# datetime.combine(čas + datum) a poslat do js, v js to rozdelit a pak zase z js poslat date a time 
 
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
@@ -24,31 +24,6 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-
-# @app.route("/")
-# def home():
-#     clients = get_reservation()
-#     return render_template("index.html", clients = clients, )
-
-# @app.route("/reservation", methods = ["GET", "POST"])
-# def save_reservation():
-#     reservation = {
-#         "name" : request.form.get("name"),
-#         "date" : request.form.get("date"),
-#         "time" : request.form.get("time"),
-#         "phone" : request.form.get("phone")
-#     }
-#     format_date = "%Y-%m-%d"
-#     datetime_date = datetime.datetime.strptime(reservation["date"], format_date)
-    
-#     x = reservation["time"].split(":")
-#     datetime_time = datetime.time(hour=int(x[0]), minute=int(x[1]))
-    
-#     new_client = Clients(name = reservation["name"], date = datetime_date, time = datetime_time, phone = int(reservation["phone"]), msg_sent = False)
-#     db.session.add(new_client)
-#     db.session.commit()
-    
-#     return redirect(url_for("home"))
 
 @app.route("/")
 def render_calendar():
@@ -104,53 +79,32 @@ def delete_user():
         db.session.commit()
         return jsonify({"status":"user succesfuly deleted"})
         
-@app.route("/user_patch", methods = ["PATCH"])
+@app.route("/update_db", methods = ["PATCH"])
 def patch_user():
-    pass
-
+    data = request.get_json()
+    id = data["id"]
+    formated_date = datetime.datetime.strptime(data["date"],"%Y-%m-%d")
+    time = data["time"].split(":")
+    formated_time = datetime.time(hour=int(time[0]), minute=int(time[1]))
     
-
-
-
-# def get_reservation():
-#     with app.app_context():
-#         clients = db.session.query(Clients).all()
-#         return clients
-
-# @app.route("/delete/<int:id>")
-# def delete_client(id):
-#     to_delete = db.session.query(Clients).get(id)
-#     db.session.delete(to_delete)
-#     db.session.commit()
-#     return redirect(url_for("home"))
-
-# @app.route("/change/<int:id>", methods = ["GET","POST"])
-# def change_reservation(id):
-#     to_change = db.session.query(Clients).get(id)
-    
-    
-#     if request.method == "POST":
-#         new_client_info = {
-#             "name" : request.form.get("name"),
-#             "date" : request.form.get("date"),
-#             "time" : request.form.get("time"),
-#             "phone" : request.form.get("phone")
-
-#         }
+    with app.app_context():
+        all_clients = Clients.query.get(id)
+        if all_clients.name != data["name"]:
+            all_clients.name = data["name"]
         
-#         time = new_client_info["time"].split(":")
-#         new_date = datetime.datetime.strptime(new_client_info["date"],"%Y-%m-%d")
-#         new_time = datetime.time(hour=int(time[0]), minute=int(time[1]))
-#         to_change.name = new_client_info["name"]
-#         to_change.date = new_date
-#         to_change.time = new_time
-#         to_change.phone = new_client_info["phone"]
-#         db.session.commit()
+        
+        
+        if all_clients.date != formated_date:
+            all_clients.date = formated_date
+        
+        if all_clients.time != formated_time:
+            all_clients.time = formated_time
 
-            
-#         return redirect(url_for("home"))
-
-#     return render_template("edit_form.html", id = id, to_change = to_change )
+        if all_clients.phone != data["phone"]:
+            all_clients.phone = data["phone"]
+        db.session.commit()
+    
+    return jsonify({"status":"user succesfuly updated"})
     
 def choose_tomorrow_reservation():
     time_now = datetime.datetime.now().date()
@@ -172,7 +126,6 @@ def choose_tomorrow_reservation():
 
        
 def delete_after_reservation():
-    
         today = datetime.datetime.now().date()
         time_now = datetime.datetime.now().time()
         
@@ -192,8 +145,6 @@ def delete_after_reservation():
                 time.sleep(1)
             
 
-
-
 def automatic_sending_msg():
     scheduler = BackgroundScheduler()
     scheduler.add_job(automate_msg, "cron", hour=17, minute=0, second=0, id="job1")
@@ -210,11 +161,3 @@ def automate_msg():
 if __name__ == "__main__":
     automatic_sending_msg()
     app.run(use_reloader=False, debug=True)
-
-
-# def simulate():
-#     clients = choose_tomorrow_reservation()
-#     for client in clients:
-#         print("Dobrý den,\n"
-#         f"Připomínam vám rezervaci na zítra v {client['reservation_time']}.\n"
-#         "S pozdravem kadeřnice")

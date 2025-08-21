@@ -1,24 +1,57 @@
+
+
+
 let calendar
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale : "cs",
-           headerToolbar:{
-                 start:"dayGridMonth,dayGridWeek,dayGridDay,list",
-                 center:"title",
-                 end:"today,prev,next",
-                 
-           },
+           initialView: 'timeGridDay',
+                locale: 'cs',
+                themeSystem: 'bootstrap5',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                },
           eventClick : function(info){
-            document.querySelector(".modal-body").textContent = info.event.title
-            document.querySelector(".modal-body").textContent =info.event.start
-            document.querySelector(".modal-body").textContent =info.event.extendedProps.time
-            document.querySelector(".modal-body").textContent =info.event.extendedProps.phone
+            changeElements(true,"enabled", "d-none")
+            
+            document.querySelector("#form-name").value = info.event.title
+            
+            let date = new Date(info.event.start);
+            let year = date.getFullYear()
+            let month = String(date.getMonth() +1).padStart(2,"0")
+            let day = String(date.getDate()).padStart(2,"0")
+            
+            let formatted = `${year}-${month}-${day}`
+      
+            document.querySelector("#form-date").value = formatted
+            document.querySelector("#form-time").value =info.event.extendedProps.time
+            document.querySelector("#form-phone").value =info.event.extendedProps.phone
             
             new bootstrap.Modal(document.querySelector("#eventModal")).show()
             
+            //patch function
+            let patchButton = document.querySelector("#patch-button").addEventListener("click", (event) => {
+            changeElements(false,"d-none","enabled")
             
+            let form = document.querySelector("#editForm").addEventListener("submit", (event) =>{
+              event.preventDefault()
+              let editedUser = {
+                name : event.target.elements.name.value,
+                date : event.target.elements.date.value,
+                time : event.target.elements.time.value,
+                phone : event.target.elements.phone.value,
+                id : info.event.extendedProps.id
+                
+              }
+              
+              updateDatabase(editedUser)
+            })
+            
+            })
+
+            //delete function
             let button = document.querySelector("#delete-button").addEventListener("click", (event) => {
             let id = info.event.extendedProps.id
             deleteFromDB(id)
@@ -97,4 +130,31 @@ async function deleteFromDB(id) {
   
 }
 
+async function updateDatabase(users) {
+  await fetch("/update_db",{
+    method : "PATCH",
+    headers : {
+      "Content-Type": "application/json"
+    },
+    body : JSON.stringify(users)
+  
+
+
+  })
+  calendar.refetchEvents()
+
+}
+   
+const changeElements = (isReadOnly,removeCls,addCls) => {
+  let saveButton = document.querySelector("#submitButton")
+  if(removeCls) saveButton.classList.remove(removeCls)
+  if(addCls) saveButton.classList.add(addCls)
+  const sel = ["#form-name","#form-date", "#form-time","#form-phone"]
+    sel.forEach((id) => {
+    const element = document.querySelector(id)
+    element.toggleAttribute("readonly", isReadOnly)
+  })
+  saveButton.toggleAttribute("disabled", isReadOnly)
+  
+}
 
