@@ -1,6 +1,29 @@
+let selectedID = null
+let patchButton = document.querySelector("#patch-button").addEventListener("click", (event) => {
+            changeElements(false,"d-none","enabled")
+})
+            
+let editForm = document.querySelector("#editForm").addEventListener("submit", (event) =>{
+             
+event.preventDefault()
+let editedUser = {
+  name : event.target.elements.name.value,
+  date : event.target.elements.date.value,
+  time : event.target.elements.time.value,
+  phone : event.target.elements.phone.value,
+  id : selectedID           
+       }
+  
+updateDatabase(editedUser)
+})
+            
+//delete function
+let button = document.querySelector("#delete-button").addEventListener("click", (event) => {
+let id = selectedID
 
-
-
+deleteFromDB(id)  
+})
+          
 let calendar
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
@@ -15,14 +38,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
           eventClick : function(info){
             changeElements(true,"enabled", "d-none")
+            selectedID = info.event.extendedProps.id
             
             document.querySelector("#form-name").value = info.event.title
-            
-            //
+
             let datetime = info.event.start
-            // let iso = datetime.toISOString().split("T")
+           
             let formatted = datetime.toLocaleString("en-US",{month: "2-digit",
-  day: "2-digit", year:"numeric", hour12:false, hour: "numeric", minute:"numeric"})
+                day: "2-digit", year:"numeric", hour12:false, hour: "numeric", minute:"numeric"})
            
             
             let y = formatted.slice("6","10")
@@ -36,41 +59,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#form-time").value = timeFormatted
             document.querySelector("#form-phone").value =info.event.extendedProps.phone
             
-            new bootstrap.Modal(document.querySelector("#eventModal")).show()
-            
+            new bootstrap.Modal(document.querySelector("#eventModal")).show()},
+
             //patch function
-            let patchButton = document.querySelector("#patch-button").addEventListener("click", (event) => {
-            changeElements(false,"d-none","enabled")
             
-            let form = document.querySelector("#editForm").addEventListener("submit", (event) =>{
-             
-              event.preventDefault()
-              let editedUser = {
-                name : event.target.elements.name.value,
-                date : event.target.elements.date.value,
-                time : event.target.elements.time.value,
-                phone : event.target.elements.phone.value,
-                id : info.event.extendedProps.id
-                
-              }
-              console.log(editedUser)
-              updateDatabase(editedUser)
-            })
-            
-            })
-
-            //delete function
-            let button = document.querySelector("#delete-button").addEventListener("click", (event) => {
-            let id = info.event.extendedProps.id
-            deleteFromDB(id)
-            
-          })
-            
-
-         
-         
-          },
-      
           events :  async function (fetchInfo, successCallback, failureCallback) {
             try{
 
@@ -103,7 +95,7 @@ async function catchEvent(params) {
   const result = await response.json()
   return result} 
   
-  // rozdelit iso na time a datum
+
 let form = document.querySelector("#my-form").addEventListener("submit", async (event) => {
     event.preventDefault()
     userData = {
@@ -165,12 +157,3 @@ const changeElements = (isReadOnly,removeCls,addCls) => {
   saveButton.toggleAttribute("disabled", isReadOnly)
   
 }
-
-// let datetime = "Thu Aug 21 2025 20:22:00 GMT+0200 (středoevropský letní čas)"
-
-// let divided = datetime.split("T")
-// let date = divided[0]
-// let timeToFormate = divided[1]
-// time = timeToFormate.slice("0",5)
-
-// let x = new Date(datetime).toISOString()

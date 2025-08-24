@@ -7,10 +7,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from msg import send_message
 import time
 
-
-
-# datetime.combine(čas + datum) a poslat do js, v js to rozdelit a pak zase z js poslat date a time 
-
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
 
@@ -29,11 +25,11 @@ with app.app_context():
 def render_calendar():
     return render_template("calendar.html")
 
-
-# Ok
 @app.route("/api_python/submit", methods = ["POST"])
 def submit_data():
     reservation = request.get_json()
+    if reservation is None:
+        return jsonify({"error":"data is missing"}),400
     
     format_date = "%Y-%m-%d"
     datetime_date = datetime.datetime.strptime(reservation["date"], format_date)
@@ -45,8 +41,8 @@ def submit_data():
     db.session.add(new_client)
     db.session.commit()
     
-    return jsonify({"status" : "ok"})
-# Ok
+    return jsonify({"status" : "successfuly created new user"}),201
+
 @app.route("/send_event", methods = ["GET","POST"])
 def event_send():
     with app.app_context():
@@ -74,16 +70,22 @@ def event_send():
 @app.route("/delete_id", methods = ["POST"])
 def delete_user():
     data = request.get_json()
+    if data is None:
+        return jsonify({"status":"missing user data"}),400
     id = data["userID"]
     with app.app_context():
         client_to_del = Clients.query.get(id)
+        if client_to_del is None:
+            return jsonify({"error":"user not found"}),404
         db.session.delete(client_to_del)
         db.session.commit()
-        return jsonify({"status":"user succesfuly deleted"})
+        return jsonify({"status":"user succesfuly deleted"}),204
         
 @app.route("/update_db", methods = ["PATCH"])
 def patch_user():
     data = request.get_json()
+    if data is None:
+        return jsonify({"error":"missing user data"}),400
     id = data["id"]
     format_date = "%Y-%m-%d"
     datetime_date = datetime.datetime.strptime(data["date"], format_date)
@@ -106,7 +108,7 @@ def patch_user():
             all_clients.phone = data["phone"]
         db.session.commit()
     
-    return jsonify({"status":"user succesfuly updated"})
+    return jsonify({"status":"user succesfuly updated"}),200
     
 def choose_tomorrow_reservation():
     time_now = datetime.datetime.now().date()
