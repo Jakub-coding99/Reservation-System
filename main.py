@@ -30,7 +30,7 @@ def render_calendar():
     return render_template("calendar.html")
 
 
-
+# Ok
 @app.route("/api_python/submit", methods = ["POST"])
 def submit_data():
     reservation = request.get_json()
@@ -46,22 +46,24 @@ def submit_data():
     db.session.commit()
     
     return jsonify({"status" : "ok"})
-
+# Ok
 @app.route("/send_event", methods = ["GET","POST"])
 def event_send():
     with app.app_context():
         all_clients = Clients.query.all()
         list_of_clients = []
         for client in all_clients:
-            client_time = datetime.time.strftime(client.time, "%H:%M")
-            client_date = datetime.datetime.strftime(client.date, "%Y-%m-%d")
+            
+            combine_dt = datetime.datetime.combine(client.date, client.time)
+            date_to_iso = combine_dt.isoformat()
+            
+            
             
             
             clients = {
                 "id" : client.id,
                 "name" : client.name,
-                "date" : client_date,
-                "time" : client_time,
+                "start" : date_to_iso,
                 "phone" : client.phone,
             }
             list_of_clients.append(clients)
@@ -83,22 +85,22 @@ def delete_user():
 def patch_user():
     data = request.get_json()
     id = data["id"]
-    formated_date = datetime.datetime.strptime(data["date"],"%Y-%m-%d")
-    time = data["time"].split(":")
-    formated_time = datetime.time(hour=int(time[0]), minute=int(time[1]))
+    format_date = "%Y-%m-%d"
+    datetime_date = datetime.datetime.strptime(data["date"], format_date)
     
+    t = data["time"].split(":")
+    datetime_time = datetime.time(hour=int(t[0]), minute=int(t[1]))
+
     with app.app_context():
         all_clients = Clients.query.get(id)
         if all_clients.name != data["name"]:
             all_clients.name = data["name"]
         
+        if all_clients.date != datetime_date:
+            all_clients.date = datetime_date
         
-        
-        if all_clients.date != formated_date:
-            all_clients.date = formated_date
-        
-        if all_clients.time != formated_time:
-            all_clients.time = formated_time
+        if all_clients.time != datetime_time:
+            all_clients.time = datetime_time
 
         if all_clients.phone != data["phone"]:
             all_clients.phone = data["phone"]

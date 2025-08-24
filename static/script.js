@@ -5,7 +5,7 @@ let calendar
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-           initialView: 'timeGridDay',
+           initialView: 'dayGridMonth',
                 locale: 'cs',
                 themeSystem: 'bootstrap5',
                 headerToolbar: {
@@ -18,15 +18,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.querySelector("#form-name").value = info.event.title
             
-            let date = new Date(info.event.start);
-            let year = date.getFullYear()
-            let month = String(date.getMonth() +1).padStart(2,"0")
-            let day = String(date.getDate()).padStart(2,"0")
+            //
+            let datetime = info.event.start
+            // let iso = datetime.toISOString().split("T")
+            let formatted = datetime.toLocaleString("en-US",{month: "2-digit",
+  day: "2-digit", year:"numeric", hour12:false, hour: "numeric", minute:"numeric"})
+           
             
-            let formatted = `${year}-${month}-${day}`
-      
-            document.querySelector("#form-date").value = formatted
-            document.querySelector("#form-time").value =info.event.extendedProps.time
+            let y = formatted.slice("6","10")
+            let d = formatted.slice("3","5")
+            let m = formatted.slice("0","2")
+            let formattedDate = (`${y}-${m}-${d}`)
+            
+            let timeFormatted = formatted.slice("12","17")
+           
+            document.querySelector("#form-date").value = formattedDate
+            document.querySelector("#form-time").value = timeFormatted
             document.querySelector("#form-phone").value =info.event.extendedProps.phone
             
             new bootstrap.Modal(document.querySelector("#eventModal")).show()
@@ -36,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             changeElements(false,"d-none","enabled")
             
             let form = document.querySelector("#editForm").addEventListener("submit", (event) =>{
+             
               event.preventDefault()
               let editedUser = {
                 name : event.target.elements.name.value,
@@ -45,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 id : info.event.extendedProps.id
                 
               }
-              
+              console.log(editedUser)
               updateDatabase(editedUser)
             })
             
@@ -72,11 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
               data.forEach(function(ev){
               let event = {
                           title : ev["name"],
-                          start : ev["date"],
+                          start : ev["start"],
                           extendedProps:{
-                            phone : ev["phone"],
-                            time: ev["time"],
-                            id : ev["id"]
+                          phone : ev["phone"],
+                           id : ev["id"]
                           }     
                 }
               events.push(event)
@@ -96,6 +103,7 @@ async function catchEvent(params) {
   const result = await response.json()
   return result} 
   
+  // rozdelit iso na time a datum
 let form = document.querySelector("#my-form").addEventListener("submit", async (event) => {
     event.preventDefault()
     userData = {
@@ -158,3 +166,11 @@ const changeElements = (isReadOnly,removeCls,addCls) => {
   
 }
 
+// let datetime = "Thu Aug 21 2025 20:22:00 GMT+0200 (středoevropský letní čas)"
+
+// let divided = datetime.split("T")
+// let date = divided[0]
+// let timeToFormate = divided[1]
+// time = timeToFormate.slice("0",5)
+
+// let x = new Date(datetime).toISOString()
