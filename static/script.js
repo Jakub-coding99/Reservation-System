@@ -34,8 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                    right: 'dayGridMonth,timeGridWeek,listMonth'
+            
                 },
+            
           eventClick : function(info){
             changeElements(true,"enabled", "d-none")
             selectedID = info.event.extendedProps.id

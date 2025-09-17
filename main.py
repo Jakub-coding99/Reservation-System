@@ -40,7 +40,8 @@ def submit_data():
     new_client = Clients(name = reservation["name"], date = datetime_date, time = datetime_time, phone = int(reservation["phone"]), msg_sent = False)
     db.session.add(new_client)
     db.session.commit()
-    
+    # test_user = [{"reservation_time" : datetime_time,"phone": int(reservation["phone"])}]
+    # send_message(test_user)
     return jsonify({"status" : "successfuly created new user"}),201
 
 @app.route("/send_event", methods = ["GET","POST"])
@@ -63,6 +64,8 @@ def event_send():
                 "phone" : client.phone,
             }
             list_of_clients.append(clients)
+            
+        
         
         return jsonify(list_of_clients)
 
@@ -151,7 +154,7 @@ def delete_after_reservation():
 
 def automatic_sending_msg():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(automate_msg, "cron", hour=17, minute=0, second=0, id="job1")
+    scheduler.add_job(automate_msg, "interval",  seconds = 60, id="job1")
     scheduler.add_job(delete_after_reservation, "interval", minutes=30, id="job2")
     scheduler.start()
 
@@ -162,6 +165,8 @@ def automate_msg():
         send_message(clients=clients)
 
 
+
 if __name__ == "__main__":
     automatic_sending_msg()
     app.run(use_reloader=False, debug=True)
+

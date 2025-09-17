@@ -1,28 +1,46 @@
-/* 
-
-
-body{
+* {
   margin: 0;
-  background-image: url("img/tool.jpg");
-}
-.page{
-  background-color: transparent;
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-  min-height: 100vh;
+  padding: 0;
   box-sizing: border-box;
-} */
+}
+
+@keyframes grandH1 {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+header {
+  background:linear-gradient(45deg,#1E2A47,#A6C0D6,#F9A825,#F48FB1,#FFEB3B);
+  padding: 15px;
+  margin-bottom: 30px;
+  animation: grandH1 60s infinite ease;
+  background-size: 600% 600%;
+  color: #333;
+  position: relative;
+  
+
+}
 
 
 
+.headerh1 {
+  font-family: 'Merriweather',serif;
+  text-align: center;
+  font-size: 2rem;
+}
 
+body  {
+background:
+  linear-gradient(to bottom,rgb(251, 233, 145,0.2), rgba(255,255,255,0.2) ),
+   url("img/sky1.jpg") no-repeat center/cover;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Lato',sans-serif;
 
- /* #calendar {
-      height: 66vh;
-      font-size: 12px;
-      width: 66vh;
-    } */
+}
+
 
   .modal {
     position: relative;
@@ -30,36 +48,149 @@ body{
     left: 50%;
   }
 
+/* FORM */
 
-html, body{
-  height : 100vh;
-  width: auto;
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background-image: url("img/tool.jpg");
-  justify-content: center;
-  text-align: center;
-}
-body{
-  padding: 1rem;
+#my-form {
+  background-color: transparent !important;
 }
 
 
-.page {
-  background: #fff4f8;
-  background-image: url("img/tool.jpg");
-  padding: 1rem;
+button.send-btn {
+  
+  border: 4px solid #ffffff,;
+  color: rgb(255, 255, 255);
   border-radius: 10px;
-  box-shadow:  0 0 50px rgba(0, 0, 0, 0.1);
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
 }
 
-/* @media (max-width: 400px) {
-  .page-wrapper {
-    padding: 2rem;
-  }
+button.send-btn:hover  {
+  color: white;
+  background: rgba(255,255,255,0.4);
+
+
+}
+
+
+/* @keyframes gradientBg {
+  0% {background-position: 0%,50%;}
+  50% {background-position: 100%,50%;}
+  100% {background-position: 0%,50%;}
 
 } */
+/* CALENDAR */
+
+#calendar {
+  background: transparent;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.fc .fc-daygrid-day {
+  border: 1px solid rgb(255, 138, 4);
+}
+
+.fc-col-header-cell-cushion {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-size: 20px !important;
+   padding: 12px !important;
+ 
+}
+
+
+.fc-event-title{
+  color:rgb(8, 8, 8);
+  font-size: 14px !important;
+}
+
+.fc-event-time
+{
+  color: rgb(255, 138, 4);
+}
+
+.fc-header-toolbar {
+  background: transparent;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border-radius: 10px;
+  ;
+}
+
+.fc-daygrid-event-dot {
+  display: none;
+}
+
+
+.fc-view-harness {
+
+  background-color:#FFF9F2;
+}
+
+.fc-col-header {
+  border-bottom: none !important;
+  background-color: #F9A825;
+ 
+}
+
+.fc-daygrid-day-number {
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  
+}
+
+.fc-daygrid-day-top {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  
+}
+
+.fc-toolbar-title {
+  color: rgb(71, 71, 71);
+  background-color: transparent !important;
+  box-shadow: none !important;
+  font-family: 'Dancing Script';
+  font-weight: bold;
+}
+
+.my-label {
+  color: rgb(255, 255, 255);
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+}
+
+/* LIST STYLE */
+.fc-list-day-cushion {
+  background-color: #F9A825 !important;
+}
+
+.fc-list-day-text {
+  color: white;
+  text-decoration: none;
+}
+
+
+.fc-list-event-graphic {
+  display: none;
+}
+
+
+.fc-list-event-time{
+  font-weight: bold;
+}
+
+.fc-list-day-side-text {
+  color:black
+}
+
+
+
+/* RESPONSIVE */
+
+@media (max-width : 600px) {
+  .fc-toolbar-title {
+  color: rgb(8, 8, 8);
+  font-size: 22px !important;
+}
+}
