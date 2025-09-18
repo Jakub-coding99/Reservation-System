@@ -36,8 +36,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,listMonth'
             
-                },
-            
+                }, 
+          buttonText: {
+              today:    'Dnes',
+              month:    'Měsíc',
+              week:     'Týden',
+              
+              list:     'Výpis'
+
+          },
+               
+          
           eventClick : function(info){
             changeElements(true,"enabled", "d-none")
             selectedID = info.event.extendedProps.id

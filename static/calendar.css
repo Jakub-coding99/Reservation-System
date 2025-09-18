@@ -10,24 +10,27 @@
   100% {background-position: 0% 50%;}
 }
 
-header {
-  background:linear-gradient(45deg,#1E2A47,#A6C0D6,#F9A825,#F48FB1,#FFEB3B);
+.head{
+  background:linear-gradient(270deg, #303031,#717375,#706f6c,#3b393a);
   padding: 15px;
   margin-bottom: 30px;
-  animation: grandH1 60s infinite ease;
+  animation: grandH1 30s infinite ease; 
   background-size: 600% 600%;
   color: #333;
   position: relative;
+  opacity: 0.8;
   
 
 }
 
 
 
-.headerh1 {
+.titleDiv .headerh1 {
   font-family: 'Merriweather',serif;
   text-align: center;
   font-size: 2rem;
+  color: rgb(240, 240, 240);
+  
 }
 
 body  {
@@ -147,11 +150,13 @@ button.send-btn:hover  {
 }
 
 .fc-toolbar-title {
-  color: rgb(71, 71, 71);
+  
   background-color: transparent !important;
   box-shadow: none !important;
   font-family: 'Dancing Script';
   font-weight: bold;
+  color: rgb(8, 8, 8);
+  font-size: 22px !important
 }
 
 .my-label {
@@ -188,9 +193,11 @@ button.send-btn:hover  {
 
 /* RESPONSIVE */
 
-@media (max-width : 600px) {
+@media (max-width : 1200px) {
   .fc-toolbar-title {
-  color: rgb(8, 8, 8);
-  font-size: 22px !important;
+  
+   color: rgb(71, 71, 71);
+   font-size: 30px;
+ 
 }
 }
