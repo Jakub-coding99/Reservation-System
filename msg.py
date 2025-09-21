@@ -30,7 +30,7 @@ def send_message(clients):
 
 
         }
-        send = requests.post("https://app.gosms.eu/api/v1/messages", params = token, json = body).json()
+        requests.post("https://app.gosms.eu/api/v1/messages", params = token, json = body).json()
         
         print("message sent")
     
