@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -10,11 +11,14 @@
   100% {background-position: 0% 50%;}
 }
 
+
+
+
 .head{
   background:linear-gradient(270deg, #303031,#717375,#706f6c,#3b393a);
   padding: 15px;
   margin-bottom: 30px;
-  animation: grandH1 30s infinite ease; 
+  animation: grandH1 15s infinite ease; 
   background-size: 600% 600%;
   color: #333;
   position: relative;
@@ -41,6 +45,7 @@ background:
   width: 100%;
   box-sizing: border-box;
   font-family: 'Lato',sans-serif;
+  height: 1550px;
 
 }
 
@@ -60,9 +65,9 @@ background:
 
 button.send-btn {
   
-  border: 4px solid #ffffff,;
-  color: rgb(255, 255, 255);
-  border-radius: 10px;
+  border: 4px solid #ffffff !important;
+  color: rgb(255, 255, 255) !important;
+  border-radius: 10px !important;
 }
 
 button.send-btn:hover  {
@@ -71,6 +76,8 @@ button.send-btn:hover  {
 
 
 }
+
+
 
 
 /* @keyframes gradientBg {
@@ -85,29 +92,64 @@ button.send-btn:hover  {
   background: transparent;
   border-radius: 12px;
   margin-bottom: 30px;
+  font-size: 12px!;
+  overflow: hidden;
+  height: 75vh;
+  
 }
 
 .fc .fc-daygrid-day {
-  border: 1px solid rgb(255, 138, 4);
+  border: 1px solid rgb(255, 219, 175);
 }
 
 .fc-col-header-cell-cushion {
   color: rgb(255, 255, 255);
   text-decoration: none;
-  font-size: 20px !important;
-   padding: 12px !important;
+  font-size: 12px !important;
+   padding: 6px !important;
+ 
+}
+
+.fc-dayGridMonth-button {
+  margin-right: 5px !important ;
+}
+
+.fc-timeGridWeek-button {
+  margin-right: 5px !important ;
+  
+} 
+.fc-today-button {
+  font-size: 12px !important;
+   padding: 10px !important;
+   height: 100%;
+   
+}
+
+.fc-event {
+  border: 1px solid orange !important;
+}
+
+
+
+.fc-button-group  {
+  font-size: 12px !important;
+   padding: 5px !important;
+  
  
 }
 
 
 .fc-event-title{
-  color:rgb(8, 8, 8);
-  font-size: 14px !important;
+  color:rgb(74, 74, 74);
+  font-size: 12px !important;
+
+  
 }
 
 .fc-event-time
 {
   color: rgb(255, 138, 4);
+  font-size: 12px;
 }
 
 .fc-header-toolbar {
@@ -138,6 +180,7 @@ button.send-btn:hover  {
   text-decoration: none;
   text-align: center;
   color: black;
+  font-size: 12px; 
   
 }
 
@@ -146,19 +189,42 @@ button.send-btn:hover  {
   justify-content: center;
   margin: 0;
   padding: 0;
+ 
+  
   
 }
 
-.fc-toolbar-title {
+.fc-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.fc-toolbar .fc-toolbar-title {
   
   background-color: transparent !important;
   box-shadow: none !important;
   font-family: 'Dancing Script';
   font-weight: bold;
-  color: rgb(8, 8, 8);
-  font-size: 22px !important
+  color: rgb(255, 255, 255);
+  font-size: 20px !important;
+  display: block !important;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-left: 3px; 
+  
+  
+  
+  
+  
 }
 
+.fc-toolbar .fc-toolbar-chunk {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .my-label {
   color: rgb(255, 255, 255);
   font-family: 'Lato', sans-serif;
@@ -173,31 +239,257 @@ button.send-btn:hover  {
 .fc-list-day-text {
   color: white;
   text-decoration: none;
+  font-size: 12px;
 }
+
+.fc-list-event-title {
+  font-size: 12px;
+  
+}
+
 
 
 .fc-list-event-graphic {
   display: none;
+  
 }
 
 
 .fc-list-event-time{
   font-weight: bold;
+  font-size: 12px;
 }
 
 .fc-list-day-side-text {
-  color:black
+  color:rgb(86, 86, 86);
+  font-size: 12px;
+
+}
+
+/* WEEK */
+.fc-timegrid-slot-label-cushion {
+  font-size: 12px;
+}
+
+.fc-timegrid-axis-cushion {
+  display: none;
 }
 
 
 
-/* RESPONSIVE */
-
-@media (max-width : 1200px) {
-  .fc-toolbar-title {
+.fc-timegrid-event {
   
-   color: rgb(71, 71, 71);
-   font-size: 30px;
+  outline: none !important;
+  background-color: #ffe5c2 !important;
+  box-shadow: none !important;
+  
+  border: 1px solid orange !important;
+
+}
+
+.modal-header {
+
+  background:linear-gradient(270deg, #303031,#717375,#706f6c,#3b393a);
+  display: block;
+  text-align: center;
+}
+
+
+.form-control {
+text-align: center !important;
+
+}
+
+
+
+.form-control:focus{
+  border: 1px solid #4f4e4d !important;
+  overflow: none !important;
+  box-shadow: none !important;
+  
+
+
+  
+}
+
+
+ .modal-footer {
+  justify-content: space-evenly !important;
+ }
+  
+
+.form-BTN  {
+  background-color:#2c3e50;
+  padding: 5px 10px;
+  border: 1px solid #636363;
+  border-radius: 8px;
+  color: white;
+  position: relative;
+ 
+
+}
+
+
+#delete-button,#confirmYes {
+  background-color: #E4004B;
+  position: relative;
+  cursor: pointer;
+}
+
+
+.form-BTN::after {
+  content: "";
+  position: absolute ;
+  bottom : -7px ;
+  left: 0 ;
+  width: 0 ;
+  height: 4px;
+  background-color: #2c3e50;
+  transition: 100ms;
+  border-radius: 10px;
+
+}
+
+
+
+.form-BTN:hover::after{
+  width: 100%;
+  
+}
+
+
+#confirmYes::after{ 
+  background-color: #E4004B
+}
+#delete-button::after{ 
+  background-color: #E4004B
+}
+
+
+
+
+
+#submitButton {
+  background-color: #0D1282 !important;
+  text-align: center !important;
+  border-radius: 8px;
+  
+  padding: 5px 10px;
+  
+  color: white;
+  position: relative;
  
 }
+
+#submitButton::after {
+  content: "";
+  position: absolute ;
+  bottom : -7px ;
+  left: 0 ;
+  width: 0 ;
+  height: 4px;
+  background-color:#0D1282;
+  transition: 100ms;
+  border-radius: 10px;
+
+}
+
+
+#submitButton:hover::after {
+  width: 100%;
+} 
+
+/* CONFIRM MODAL */
+
+
+
+/* .moda-input:hover {
+  border: 1px solid rgb(128, 128, 128) !important;
+} */
+/* 
+RESPONSIVE */
+
+@media (min-width : 1000px) {
+  .fc-toolbar .fc-toolbar-title {
+  
+   color: rgb(255, 255, 255);
+   font-size: 2rem !important
+  }
+
+
+   #calendar {
+    height: 100vh;
+  }
+
+  .form-control {
+    text-align: left !important;
+  }
+
+
+  .fc-toolbar .fc-toolbar-chunk {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+
+} 
+.fc-col-header-cell-cushion {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-size: 18px !important;
+   padding: 6px !important;
+ 
+}
+
+.fc-dayGridMonth-button {
+  margin-right: 5px !important ;
+  font-size: 18px !important;
+}
+
+.fc-timeGridWeek-button {
+  margin-right: 5px !important ;
+  font-size: 18px !important;
+  
+} 
+.fc-today-button {
+  font-size: 18px !important;
+   padding: 10px !important;
+   
+   
+}
+.fc-listMonth-button {
+  font-size: 18px !important;
+}
+.fc-prev-button {
+  font-size: 16px !important;
+
+
+}
+
+.fc-next-button {
+  font-size: 16px !important;
+}
+.fc-daygrid-day-number {
+  font-size: 16px;
+}
+
+.fc-event-title{
+  
+  font-size: 16px !important;
+
+  
+}
+
+.fc-event-time
+{
+
+  font-size: 16px;
+}
+
+
+#my-form {
+  
+  width: 75% !important;
+}
+
+
 }

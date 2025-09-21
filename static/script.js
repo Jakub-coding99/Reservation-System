@@ -1,7 +1,28 @@
 let selectedID = null
-let patchButton = document.querySelector("#patch-button").addEventListener("click", (event) => {
-            changeElements(false,"d-none","enabled")
+
+const modal = new bootstrap.Modal(document.querySelector("#eventModal"))
+
+const confirmModal = new bootstrap.Modal(document.querySelector("#confirmModal"))
+
+
+let cancelButton = document.querySelector("#cancel-button")
+
+cancelButton.addEventListener("click", () => {
+  changeElements(true,"enabled", "d-none")
+  modal.hide()
+  
 })
+
+let patchButton = document.querySelector("#patch-button")
+patchButton.addEventListener("click", (event) => {
+           
+              changeElements(false,"d-none","enabled")
+              patchButton.style.display = "none"
+              cancelButton.style.display = "flex"
+
+})
+
+
             
 let editForm = document.querySelector("#editForm").addEventListener("submit", (event) =>{
              
@@ -15,26 +36,50 @@ let editedUser = {
        }
   
 updateDatabase(editedUser)
+modal.hide()
 })
             
 //delete function
 let button = document.querySelector("#delete-button").addEventListener("click", (event) => {
-let id = selectedID
 
-deleteFromDB(id)  
+modal.hide()
+confirmModal.show()
+
+yes = document.querySelector("#confirmYes")
+no = document.querySelector("#confirmNo")
+
+closeBtn = document.querySelector("#closeModal")
+id = selectedID
+
+  yes.addEventListener("click", () => {
+  confirmModal.hide()
+  deleteFromDB(id) 
+
+  })
+
+
+  no.addEventListener("click", () => {
+    confirmModal.hide()
+  })
+  closeBtn.addEventListener("click", (event) => {
+            confirmModal.hide() })
+
 })
           
 let calendar
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
+      firstDay:1,
+      fixedWeekCount:false,
            initialView: 'dayGridMonth',
                 locale: 'cs',
                 themeSystem: 'bootstrap5',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,listMonth'
+                    right: 'dayGridMonth,timeGridWeek,listMonth',
+                    
             
                 }, 
           buttonText: {
@@ -48,6 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
                
           
           eventClick : function(info){
+           
+            cancelButton.style.display = "none"
+            
+            patchButton.style.display = "flex"
             changeElements(true,"enabled", "d-none")
             selectedID = info.event.extendedProps.id
             
@@ -70,7 +119,16 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#form-time").value = timeFormatted
             document.querySelector("#form-phone").value =info.event.extendedProps.phone
             
-            new bootstrap.Modal(document.querySelector("#eventModal")).show()},
+            
+            modal.show()
+            
+            document.querySelector(".btn-close").addEventListener("click", (event) => {
+            modal.hide() })
+            },
+          
+          
+          
+           
 
             //patch function
             
@@ -130,6 +188,8 @@ let form = document.querySelector("#my-form").addEventListener("submit", async (
 
 
 async function deleteFromDB(id) {
+ 
+  
   user = {userID : id}
   await fetch("/delete_id", {
     method : "POST",
@@ -137,7 +197,10 @@ async function deleteFromDB(id) {
        "Content-Type": "application/json"},
     body : JSON.stringify(user)
   })
+  
+  
   calendar.refetchEvents()
+ 
   
 }
 
@@ -153,7 +216,7 @@ async function updateDatabase(users) {
 
   })
   calendar.refetchEvents()
-
+  
 }
    
 const changeElements = (isReadOnly,removeCls,addCls) => {

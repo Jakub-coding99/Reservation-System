@@ -154,20 +154,22 @@ def delete_after_reservation():
 
 def automatic_sending_msg():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(automate_msg, "interval",  seconds = 60, id="job1")
+    scheduler.add_job(automate_msg, "interval",  minutes = 30, id="job1")
     scheduler.add_job(delete_after_reservation, "interval", minutes=30, id="job2")
     scheduler.start()
 
 
 def automate_msg():
-    clients = choose_tomorrow_reservation()
-    if clients:
-        send_message(clients=clients)
+    # clients = choose_tomorrow_reservation()
+    # if clients:
+    #     send_message(clients=clients)
+    print("sent")
 
 
 
 if __name__ == "__main__":
     automatic_sending_msg()
-    app.run(debug=True)
-    # host="0.0.0.0", port=5000
+    app.run(host="0.0.0.0", port=5000)
+    
+
 

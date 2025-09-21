@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     
-    <meta charset='utf-8' />
+    <meta charset='utf-8' name="viewport" content="width=device-width,initial-scale=1.0">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
     
   </head>
@@ -13,7 +13,7 @@
     <header>
       <div class="head">
           <div class="titleDiv">
-              <h1 class="headerh1">Rezervační systém</h1>
+              <h1 class="headerh1">Rezervace</h1>
           </div>
 
       </div>
@@ -25,8 +25,11 @@
     
     
     <div class="container mb-4" >
+      
+      <div class="d-flex justify-content-center">
 
-    <form id = "my-form" class="form-horizontal   p-4 ">
+
+         <form id = "my-form" class="form-horizontal w-100">
         
 
         <div class="row mb-3">
@@ -61,6 +64,13 @@
           <button type="submit" class="btn w-25 fw-bold send-btn" >Odeslat</button>
         </div>
       </form>
+
+
+
+      </div>
+        
+     
+   
    </div>
     
     
@@ -68,41 +78,97 @@
       <div class="container ">
         <div id='calendar'></div> 
       </div>
-   
-
-   
-    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-  Launch demo modal
-</button> -->
-
+  
 <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Rezervace</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-        </button>
+        <h5 class="modal-title text-white" id="exampleModalLongTitle">Rezervace</h5>
+        <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+        
       </div>
       <div class="modal-body">
         <div class="form" id ="editForm">
           <form >
-            <input  class="form-control" type="text" id = form-name name = "name">
-            <input class="form-control"  type="date" id = form-date name = "date">
-            <input class="form-control" type="time" id = form-time name = "time">
-            <input class="form-control" type="text" id = form-phone name ="phone">
-            <input type="submit" id="submitButton" class="d-none" value="Uložit">
-          </form>
+            
+             <div class="row m-3">
+                  <input  class="form-control" type="text" id = form-name name = "name">
+            </div>
+            
+            <div class="center">
+                <div class="row m-3">
+                  <input class="form-control"  type="date" id = form-date name = "date">
+                </div>
+                  
+                <div class="row m-3">
+                  <input class="form-control" type="time" id = form-time name = "time">
+                </div>
 
+            </div>
+           
 
+            <div class="row m-3">
+                  <input class="form-control" type="text" id = form-phone name ="phone">
+            </div>
+
+            <div class="row m-2">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" id="submitButton" class=" d-none" >Uložit</button> 
+                </div>
+              
+              
+
+            </div>
+            
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="patch-button" >Upravit</button>
-        <button type="button" id = "delete-button" class="btn btn-primary" data-bs-dismiss="modal">Smazat</button>
+        
+          <button type="button" class="form-BTN"  id="cancel-button" >Zrušit</button>
+          <button type="button" class="form-BTN"  id="patch-button" >Upravit</button>
+          <button type="button" id = "delete-button" class="form-BTN"  data-bs-dismiss="modal">Smazat</button>
+      </form>
+        
+        
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+<!-- Modal for delete confirmation -->
+
+<div class="modal" tabindex="-1" role="dialog" id="confirmModal"  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-white">Smazat Rezervaci</h5>
+        <button type="button" class="btn-close btn-close-white" id = "closeModal"aria-label="Close"></button>
+        
+
+      </div>
+      <div class="modal-body">
+        <p>Opravdu chcete rezervaci smazat?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button"type="button" class="form-BTN" id="confirmYes">Ano</button>
+        <button type="button" type="button" class="form-BTN" id="confirmNo">Ne</button>
+
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+
+
+
+
+</div>
+
 
 
 <script src="static/script.js"></script> 
