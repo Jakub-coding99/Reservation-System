@@ -30,7 +30,19 @@ def send_message(clients):
 
 
         }
-        requests.post("https://app.gosms.eu/api/v1/messages", params = token, json = body).json()
+        try:
+            request = requests.post("https://app.gosms.eu/api/v1/messages", params = token, json = body)
+            request.raise_for_status()
+            data = request.json()
+            print("sms sent", data)
+
+
+        except:
+            requests.exceptions.HTTPError
+
+        
+
+
         
         print("message sent")
     

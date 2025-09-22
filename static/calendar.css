@@ -493,3 +493,201 @@ RESPONSIVE */
 
 
 }
+
+
+
+/* TOAST MESSAGES */
+
+.toastPosition {
+    position: fixed;
+    top: 20px;
+    right: 10px
+}
+
+
+
+.toasts {
+    display: grid;
+    opacity: 0;
+    position: relative;
+    height: 75px;
+    width: 400px;
+    background-color: rgb(252, 248, 248);
+    grid-template-rows:  50% 50%;
+    grid-template-columns: 12% 78% 10%;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    box-shadow: 0 4px 12px rgb(185, 185, 185);
+    transition:  opacity 0.5s ease;
+    pointer-events: none;
+
+}
+
+.toasts.success.visible {
+    display: grid;
+    opacity: 1;
+    pointer-events: auto;
+
+}
+
+ .toasts.info.visible {
+    display: grid;
+    opacity: 1;
+    pointer-events: auto;
+
+} 
+
+
+.toasts.warning.visible {
+  display: grid;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+.toasts.visible::after{
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 4px;
+    left: 0;
+    bottom: 0px;
+    background-color: rgb(23, 97, 0);
+    animation: anim  3s linear forwards;
+    
+    
+}
+
+.toasts.info.visible::after {
+    background-color:rgb(54, 118, 181);
+    animation: anim  3s linear forwards;
+} 
+
+
+.toasts.warning.visible::after {
+  background-color:rgb(217, 0, 0);
+    animation: anim  3s linear forwards;
+
+}
+
+@keyframes anim {
+    
+   100% {
+    width: 0%;
+   }
+  
+ 
+}
+
+.toastHead {
+    grid-row: 1;
+    grid-column: 2;
+  
+}
+
+.close {
+   grid-row: 1;
+   grid-column: 3;
+   color: grey;
+   margin: 0;
+   padding: 0;
+   width: 5px;
+   height: 3px;
+     
+}
+
+.close:hover{
+    color: rgb(0, 0, 0);
+}
+
+
+
+.close:after{
+  
+  content: "\00d7"; 
+  font-size: 30px;
+}
+
+.toasts h3 {
+    margin: 10px 15px  ;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    
+
+
+}
+
+.checkmark {
+    grid-column: 1;
+    grid-row: 1 /span 2 ;
+    margin : 0 ;}
+   
+
+.toasts .checkmark::before {
+    
+    
+   color: rgb(255, 255, 255) ;
+    width: 30px;
+    font-size: 20px;
+    vertical-align: center;
+    margin: 20px 5px;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+    
+}
+
+
+
+
+.toasts.success .checkmark {
+    background-color: green;
+    
+    
+}
+ .toasts.info .checkmark {
+    background-color: rgb(54, 118, 181);
+
+}
+
+
+.toasts.warning .checkmark {
+  background-color: rgb(217, 0, 0);
+}
+
+
+
+ .toasts.success .checkmark::before {
+    content: "✓";
+    background-color: green;
+
+}
+
+
+.toasts.info .checkmark::before  {
+    content: "i";
+    background-color: rgb(54, 118, 181);
+     
+} 
+
+
+.toasts.warning .checkmark::before {
+  content: "!";
+  background-color: rgb(217, 0, 0);
+}
+
+
+.toastText p {
+    grid-row: 2;
+    grid-column: 1;
+    margin: 5px 15px  ;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    
+}
+

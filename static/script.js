@@ -37,6 +37,7 @@ let editedUser = {
   
 updateDatabase(editedUser)
 modal.hide()
+toastFunctionSuccess("Klient úspěšně upraven","success","USPĚŠNÉ")
 })
             
 //delete function
@@ -53,7 +54,8 @@ id = selectedID
 
   yes.addEventListener("click", () => {
   confirmModal.hide()
-  deleteFromDB(id) 
+  deleteFromDB(id)
+  toastFunctionSuccess("Klient úspěšně odstraněn z kalendáře","success","ÚSPĚŠNÉ")
 
   })
 
@@ -183,6 +185,7 @@ let form = document.querySelector("#my-form").addEventListener("submit", async (
   })
   calendar.refetchEvents()
     event.target.reset()
+    toastFunctionSuccess("Klient úspěšně přidán do kalendáře","info","INFO")
 
 })
 
@@ -231,3 +234,34 @@ const changeElements = (isReadOnly,removeCls,addCls) => {
   saveButton.toggleAttribute("disabled", isReadOnly)
   
 }
+let toastFunctionSuccess = (msg,type,head) => {
+       
+            
+            typeToast = document.querySelector(".toasts")
+            
+            typeToast.className = "toasts " + type
+            typeToast.classList.add("visible")
+            
+            typeToast.querySelector(".toastText p").textContent = msg
+            typeToast.querySelector(".toastHead h3").textContent = head
+            
+            
+            setTimeout(()=> {
+                typeToast.classList.remove("visible");},3000)
+            
+
+
+        
+        
+
+        let toastWindow = document.querySelector(".close")
+        toastWindow.addEventListener("click",() => {
+            typeToast.classList.remove("visible")
+
+        })
+
+
+        
+
+       }
+       
