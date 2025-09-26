@@ -1,0 +1,29 @@
+{% extends "base_login.html" %}
+{% block title %}Change Password{% endblock %}
+
+{% block content %}
+    <div class="flashMessages">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %} 
+        <ul> {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %} 
+        </ul> 
+        {% endif %} {% endwith %}
+
+    </div>
+    
+
+
+
+    <form action="" method="POST" id = "changePassForm">
+        <p>lorem ipusm Lorem, ipsum dolor sit amet consec.</p>
+        <input type="text" name="password1" placeholder="heslo">
+         <input type="text" name="password2" placeholder="potvrdte heslo">
+        <button type="submit">odeslat</button>
+
+
+
+    </form>
+
+{% endblock %}

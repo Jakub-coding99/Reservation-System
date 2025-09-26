@@ -8,7 +8,7 @@ const confirmModal = new bootstrap.Modal(document.querySelector("#confirmModal")
 let cancelButton = document.querySelector("#cancel-button")
 
 cancelButton.addEventListener("click", () => {
-  changeElements(true,"enabled", "d-none")
+  changeElements(true,"enabled", "d-none", true)
   modal.hide()
   
 })
@@ -16,11 +16,15 @@ cancelButton.addEventListener("click", () => {
 let patchButton = document.querySelector("#patch-button")
 patchButton.addEventListener("click", (event) => {
            
-              changeElements(false,"d-none","enabled")
+              changeElements(false,"d-none","enabled",false)
               patchButton.style.display = "none"
               cancelButton.style.display = "flex"
 
 })
+
+
+
+
 
 
             
@@ -32,7 +36,8 @@ let editedUser = {
   date : event.target.elements.date.value,
   time : event.target.elements.time.value,
   phone : event.target.elements.phone.value,
-  id : selectedID           
+  id : selectedID,
+  work: event.target.work.value
        }
   
 updateDatabase(editedUser)
@@ -99,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cancelButton.style.display = "none"
             
             patchButton.style.display = "flex"
-            changeElements(true,"enabled", "d-none")
+            changeElements(true,"enabled", "d-none",true)
             selectedID = info.event.extendedProps.id
             
             document.querySelector("#form-name").value = info.event.title
@@ -120,6 +125,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector("#form-date").value = formattedDate
             document.querySelector("#form-time").value = timeFormatted
             document.querySelector("#form-phone").value =info.event.extendedProps.phone
+            document.querySelector("#form-work").value = info.event.extendedProps.work
+
+
+            
             
             
             modal.show()
@@ -146,7 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
                           start : ev["start"],
                           extendedProps:{
                           phone : ev["phone"],
-                           id : ev["id"]
+                           work: ev["work"],
+                          id : ev["id"],
                           }     
                 }
               events.push(event)
@@ -174,6 +184,7 @@ let form = document.querySelector("#my-form").addEventListener("submit", async (
     date : event.target.date.value,
     time : event.target.time.value,
     phone : event.target.phone.value,
+    work : event.target.workOpt.value 
     }
 
   await fetch("/api_python/submit", {
@@ -222,9 +233,23 @@ async function updateDatabase(users) {
   
 }
    
-const changeElements = (isReadOnly,removeCls,addCls) => {
+const changeElements = (isReadOnly,removeCls,addCls,select_add) => {
+  selectForm = document.querySelector("#form-work")
+  if(select_add === true){
+    selectForm.disabled = true
+
+
+  }
+
+  else if (select_add === false){
+    selectForm.disabled = false
+  }
+
+
   let saveButton = document.querySelector("#submitButton")
   if(removeCls) saveButton.classList.remove(removeCls)
+
+
   if(addCls) saveButton.classList.add(addCls)
   const sel = ["#form-name","#form-date", "#form-time","#form-phone"]
     sel.forEach((id) => {
@@ -264,4 +289,26 @@ let toastFunctionSuccess = (msg,type,head) => {
         
 
        }
-       
+// document.querySelector("#registerForm").addEventListener("submit", (event) => {
+//   event.preventDefault()
+//     async function  test()  {
+//     const response = await fetch("/register" ,{
+//       method : "POST"
+//     })
+//     const result = await response.json()
+//       console.log(result)
+//     if (result.success === true) {
+//       toastFunctionSuccess("chyba","warning","wanr")
+//        window.location.href = result.redirect
+//     }
+
+//     else {
+//        toastFunctionSuccess("chyba","info","wanr")
+//     }
+
+//   }
+
+
+
+
+// })

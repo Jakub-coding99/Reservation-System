@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% for err in err_logs %}
+    <table class="errTable">
+        <tr>
+            <th>Client</th>
+            <th>Response</th>
+            <th>Time</th>
+        </tr>
+
+        <tr>
+            <td>{{err.client | tojson(indent = 2)}}></a></td>
+            <td>{{err.response_error | tojson(indent = 2)}}</td>
+            <td>{{err.datetime}}</td>
+            <td><a href="{{url_for('delete_error', id = err.id )}}">Smazat</a></td>
+
+
+
+        </tr>
+
+    </table>
+    
+    {% endfor %}
+
+
+{% endblock %}
