@@ -23,18 +23,50 @@
   color: #333;
   position: relative;
   opacity: 0.8;
+  font-family: "Inter", sans-serif;
+
   
 
 }
 
+.titleDiv {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  grid-template-rows: 1;
+
+  
+}
+
+.logoutBTN {
+  grid-column: 3;
+  justify-self: end;
+  grid-row: 1;
+}
+
+.logoutBTN a {
+  color: #e8e8e8;
+  padding: 5px;
+  font-size: 13px;
+}
 
 
-.titleDiv .headerh1 {
+.logoutBTN a:hover {
+  color: rgb(149, 149, 149);
+}
+
+
+.headerh1 {
+  
+  grid-column: 2;
   font-family: 'Merriweather',serif;
   text-align: center;
   font-size: 2rem;
   color: rgb(240, 240, 240);
+  margin-left: auto; 
+  grid-row: 1;
   
+
 }
 
 body  {
@@ -44,7 +76,8 @@ background:
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
-  font-family: 'Lato',sans-serif;
+ font-family: "Inter", sans-serif;
+
   height: 1550px;
 
 }
@@ -301,16 +334,17 @@ text-align: center !important;
 }
 
 
-
+.form-select:focus,
 .form-control:focus{
   border: 1px solid #4f4e4d !important;
   overflow: none !important;
   box-shadow: none !important;
-  
-
 
   
 }
+
+
+
 
 
  .modal-footer {
@@ -491,6 +525,49 @@ RESPONSIVE */
   width: 75% !important;
 }
 
+.toastPosition {
+  top: 10px;
+  right: 50px;
+  width: 35%;
+  
+}
+
+.fc-list-day-text {
+
+  font-size: 16px;
+}
+
+.fc-list-event-title {
+  font-size: 16px;
+  
+}
+
+
+.fc-list-event-time{
+
+  font-size: 16px;
+}
+
+.fc-list-day-side-text {
+
+  font-size: 16px;
+
+}
+
+.logoutBTN a {
+ 
+  font-size: 16px;
+}
+
+
+
+.headerh1 {
+   
+  font-size: 3rem;
+
+
+}
+
 
 }
 
@@ -500,8 +577,8 @@ RESPONSIVE */
 
 .toastPosition {
     position: fixed;
-    top: 20px;
-    right: 10px
+    top: 10px;
+    left: 10px
 }
 
 
@@ -714,11 +791,11 @@ RESPONSIVE */
 
 
   .toastPosition {
-    width: 100%;
+    width: 80%;
     display: flex;
   
-   justify-content: center;
-    top: 30px;
+   justify-content: flex-start;
+    
   
 }
 
@@ -738,8 +815,35 @@ RESPONSIVE */
 }
 
 
+.errWrapper {
+  display: flex;
+  justify-content: center;
+ 
+}
+
 .errTable {
+ 
   background-color: white;
   color: rgb(0, 0, 0);
   max-width: 75vw;
+  padding: 10px;
+  width: 100%;
+  margin-top: 50px;
+ 
+
+}
+
+.errTable tr th {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.errTable tr td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.errTable, tr ,td {
+  padding: 10px;
+
 }

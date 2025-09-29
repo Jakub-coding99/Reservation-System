@@ -7,15 +7,27 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from db_model import db, User
+import os
 
 
 
 auth_bp = Blueprint("auth", __name__,template_folder="templates")
 
 
+def create_admin():
+    admin = User.query.filter_by(name = "admin").first()
+    if admin:
+        return
+    else:
+        hashed_pass = generate_password_hash(os.getenv("admin_password"),method= "pbkdf2:sha1" )
+        new_admin = User(name = "admin", password_hash = hashed_pass)
+        db.session.add(new_admin)
+        db.session.commit()
+    
 
 @auth_bp.route("/login", methods = ["GET","POST"])
 def login():
+    create_admin()
     if request.method == "POST":
         logged_user = {
 

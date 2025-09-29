@@ -9,55 +9,131 @@ body {
 background:
   linear-gradient(to bottom,rgb(251, 233, 145,0.2), rgba(255,255,255,0.2) ),
    url("img/sky1.jpg") no-repeat center/cover;
-  max-width: 100%;
-  background-image: center;
   width: 100%;
-  box-sizing: border-box;
-  font-family: 'Lato',sans-serif;
-  height: 700px;
+  background-image: center;
+ 
+  height: 800px;
+  font-family: "Inter", sans-serif;
+
 
  
 }
 
-
-.wrapper {
- display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+.container {
+  width: 100vw;
 }
 
-#registerForm {
+
+
+ .myLoginForm {
     border: 2px solid rgb(255, 223, 223);
     background: transparent;
     backdrop-filter: blur(20px);
-    width: 400px;
-    height: 400px;
+    font-size: 2rem;
    
 }
 
-#registerForm input {
+ .myLoginForm input {
  
-    background: transparent;
-    padding: 10px;
-    margin: 20px 40px;
-    justify-content: center;
+  border: none;
+    background: transparent !important;
+
     color: white;;
-    border: 3px green dashed;
+    
+}
 
+ .myLoginForm input:-webkit-autofill,
+ .myLoginForm input:-webkit-autofill:hover
+ .myLoginForm input:-webkit-autofill:focus
+ {
+  background-color: transparent !important;
+  -webkit-box-shadow: none !important;
+  border: none !important;
+  color: white !important;
 }
 
 
-#registerForm input::placeholder  {
-  color: black;
+.inputWrapper {
+   position: relative;
+   display: inline-block;
 }
 
 
-#registerForm button {
-  padding: 10px 30px;
-  width: 50%;
-  margin: 0 20px;
+.inputWrapper::after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  background-color: rgb(194, 194, 194);
+  left: 0;
+  bottom: -5px;
+  
+}
 
+.inputWrapper:hover::after {
+  background-color:rgb(113, 102, 102);
+}
+
+
+.inputWrapper:focus-within:after {
+  background-color:rgb(113, 102, 102);
+}
+
+
+
+ .myLoginForm input:focus {
+ 
+  outline: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+ .myLoginForm input:hover {
+ 
+  outline: none !important;
+  background-color: transparent !important;
+}
+
+
+
+
+ .myLoginForm input::placeholder  {
+  color: rgb(78, 70, 70);
+    font-family: "Inter", sans-serif;
+
+}
+
+.sub-btn {
+   
+  width: 40% !important;
+  border: 2px solid rgb(195, 195, 195);
+  margin: 0 auto;
+  padding: 3px 10px ;
+  background-color: rgb(113, 102, 102);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  letter-spacing: 2px;
+  font-family: "Inter", sans-serif;
+
+
+} 
+
+.sub-btn:hover {
+  background-color:rgb(62, 61, 59) ;
+}
+
+ .myLoginForm a {
+  text-align: center;
+  text-decoration: None;
+  color: white;
+  font-size: 15px;
+}
+
+
+ .myLoginForm a:hover {
+  color: rgb(203, 203, 203);
 }
 
 
@@ -66,4 +142,18 @@ background:
   display: flex;
   justify-self: center;
 
+}
+
+.flashMessages p {
+  font-size: 1.5rem;
+  color: rgb(1, 2, 8);
+}
+
+.flashMessages ul {
+  padding: 0;
+}
+
+
+.my-header {
+  color: rgb(238, 238, 238);
 }

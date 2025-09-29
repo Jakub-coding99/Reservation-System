@@ -1,1 +1,9 @@
-# pbkdf2:sha1:600000$RAmZ6PXfFGyQdnEA$6590863a1b8ad94a5c2350ffcae209474845b740
+from datetime import datetime
+time_now = datetime.now()
+formated_time = time_now.strftime("%d-%m-%Y, %H:%M:%S")
+
+dt_obj = datetime.strptime(formated_time,"%d-%m-%Y, %H:%M:%S")
+print(dt_obj)
+print(type(dt_obj))
+
+

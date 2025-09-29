@@ -84,11 +84,13 @@ def send_message(clients):
             except requests.exceptions.HTTPError as err:
                 status_code = err.response.status_code
                 time_now = datetime.now()
+                formated_time = time_now.strftime("%d-%m-%Y, %H:%M:%S")
+                dt_obj = datetime.strptime(formated_time,"%d-%m-%Y, %H:%M:%S")
                 
                 if status_code  == 400:
                     
                     with app.app_context():        
-                        new_error = Errors(client = clients[x], response_error = err.response.text,datetime = time_now)
+                        new_error = Errors(client = clients[x], response_error = err.response.text,datetime = dt_obj)
                         db.session.add(new_error)
                         db.session.commit()
                   

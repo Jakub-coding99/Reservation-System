@@ -11,10 +11,6 @@ from flask_login import UserMixin,login_user,logout_user,LoginManager,login_requ
 from app_factory import create_app
 
 
-
-
-
-
 app = create_app()
 app.register_blueprint(auth_bp,url_prefix="/auth")
 
@@ -32,13 +28,19 @@ with app.app_context():
 def load_user(id):
     return User.query.get(int(id))
 
+# clients = [
+#     {"phone": "abc123", "reservation_time": "14:00"},  # invalid
+#     {"phone": "730671753", "reservation_time": "15:00"}  # valid
+# ]
+
+
+
+# send_message(clients = clients)
 
 
 @app.route("/")
 @login_required
 def render_calendar():
-    print(f"Current user: {current_user.name}")
-    
     return render_template("index.html",user = current_user)
 
 @app.route("/api_python/submit", methods = ["POST"])
@@ -199,6 +201,10 @@ def delete_error(id):
     db.session.commit()
     return redirect(url_for("check_errors"))
 
+
+@app.route("/test")
+def forgot_show():
+    return render_template("forgot_pass.html")
 
 
 

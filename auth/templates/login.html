@@ -3,11 +3,26 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
-<h1>Login</h1>
+
+
+
     
+<div class="container-lg mb-3 ">
 
 
-<form action="{{url_for('auth.login')}}" method="POST" id="registerForm">
+
+<div class="row mb-3 mt-3 d-flex justify-content-center">
+    <h1 class = "text-center my-header">Přihlášení</h1>
+
+</div>
+
+
+
+<div class="d-flex justify-content-center " >
+
+
+
+<form action="{{url_for('auth.login')}}" method="POST" id="registerForm" class="form-horizontal p-4 mt-3 myLoginForm">
         
     <div class="flashMessages">
         {% with messages = get_flashed_messages() %}
@@ -20,17 +35,38 @@
 
     </div>
     
+   
+    <div class="row mb-4 justify-content-center">
+        <div class="inputWrapper">
+            <input  type="text" name="name" id="" placeholder="Uživatelské jméno">
+        </div>
+       
+        
+    </div>
     
-    
-    <input type="text" name="name" id="" placeholder="Name"><br>
-        <input type="text" name="password" placeholder="Password"><br>
- 
-        <button type="submit">Login</button>
+    <div class="row mb-4 justify-content-center">
+       
+        <div class="inputWrapper">
+            <input  type="text" name="password" placeholder="Heslo">
 
-        <h3>Did you forget password? <a href="{{url_for('auth.forgot_password')}}">Click Here</a></h3>
-
+        </div>
 
 
+    </div>
+    <div class="row mb-4 justify-content-center">
+         <button type="submit" class="sub-btn">Přihlásit</button>
+    </div>
+       
+    <div class="row mb-4 justify-content-center">
+
+         <a href="{{url_for('auth.forgot_password')}}">Zapoměli jste heslo?</a>
+    </div>
+       
+
+
+<!-- </div> -->
 </form>
+</div>
+</div>
 
 {% endblock %}

@@ -2,7 +2,24 @@
 {% block title %}Change Password{% endblock %}
 
 {% block content %}
-    <div class="flashMessages">
+    <div class="container-lg mb-3">
+
+
+<div class="row mb-3 mt-3 d-flex justify-content-center">
+    <h1 class = "text-center my-header">Změna hesla</h1>
+
+</div>
+
+   
+
+
+<div class="d-flex justify-content-center " >
+
+
+    <form action="" method="POST" id = "changePassForm" class="form-horizontal p-4 mt-3 myLoginForm">
+
+
+<div class="flashMessages">
         {% with messages = get_flashed_messages() %}
         {% if messages %} 
         <ul> {% for message in messages %}
@@ -16,14 +33,33 @@
 
 
 
-    <form action="" method="POST" id = "changePassForm">
-        <p>lorem ipusm Lorem, ipsum dolor sit amet consec.</p>
-        <input type="text" name="password1" placeholder="heslo">
-         <input type="text" name="password2" placeholder="potvrdte heslo">
-        <button type="submit">odeslat</button>
+        <div class="row mb-4 justify-content-center">
+            <div class="inputWrapper">
+                <input type="text" name="password1" placeholder="Nové heslo">
+            </div>
+            
+        
+        </div >
+
+        <div class="row mb-4 justify-content-center">
+              <div class="inputWrapper">
+                 <input type="text" name="password2" placeholder="Zadejte heslo znovu">
+              </div>
+           
+
+        </div>
+
+        <div class="row mb-4 justify-content-center">
+              <button type="submit" class="sub-btn">Potvrdit</button>
+        </div>
+        
+       
+       
+      
 
 
 
     </form>
-
+ </div>
+ </div>
 {% endblock %}
