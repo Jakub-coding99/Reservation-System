@@ -20,8 +20,8 @@ class User(db.Model,UserMixin):
     name = db.Column(db.String(100))
     password_hash = db.Column(db.String(200))
 
-class Errors(db.Model):
+class Log(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     client = db.Column(db.JSON)
-    response_error = db.Column(db.JSON)
+    response = db.Column(db.JSON)
     datetime = db.Column(db.String)

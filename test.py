@@ -1,9 +1,10 @@
-from datetime import datetime
-time_now = datetime.now()
-formated_time = time_now.strftime("%d-%m-%Y, %H:%M:%S")
+clients = [{"client" : 1},{"client" : 2},{"client" : 3},]
 
-dt_obj = datetime.strptime(formated_time,"%d-%m-%Y, %H:%M:%S")
-print(dt_obj)
-print(type(dt_obj))
-
-
+def test():
+    for client in clients:
+        if client["client"] == 1:
+            continue
+        else:
+            print(client)
+       
+test()

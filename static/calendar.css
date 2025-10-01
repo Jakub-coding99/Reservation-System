@@ -328,6 +328,17 @@ button.send-btn:hover  {
 }
 
 
+.modal-label {
+  font-weight: bold;
+
+  margin-bottom: 5px;
+}
+
+#form-work {
+    text-align-last: center !important
+  }
+
+
 .form-control {
 text-align: center !important;
 
@@ -433,15 +444,12 @@ text-align: center !important;
   width: 100%;
 } 
 
-/* CONFIRM MODAL */
 
 
 
-/* .moda-input:hover {
-  border: 1px solid rgb(128, 128, 128) !important;
-} */
-/* 
-RESPONSIVE */
+
+
+/* RESPONSIVE  */
 
 @media (min-width : 1000px) {
   .fc-toolbar .fc-toolbar-title {
@@ -459,6 +467,9 @@ RESPONSIVE */
     text-align: left !important;
   }
 
+  #form-work {
+    text-align-last: left !important
+  }
 
   .fc-toolbar .fc-toolbar-chunk {
   width: 100%;
@@ -775,7 +786,7 @@ RESPONSIVE */
 
 @media (max-width: 600px) {
   .toasts {
-    width: 300px;
+    width: 350px;
     height: 75px;
   }
 
@@ -796,7 +807,10 @@ RESPONSIVE */
   
    justify-content: flex-start;
     
-  
+
+
+
+
 }
 
 
@@ -810,6 +824,27 @@ RESPONSIVE */
 }
 
 
+.errTable {
+
+
+ max-width: 100vw;
+ min-width: 200px
+}
+
+
+.errWrapper {
+  display: inline;
+  overflow-x: auto;
+
+}
+/* #form-work {
+  text-align-last: center !important;
+} */
+
+
+.label {
+  text-align: center;
+}
 
 
 }

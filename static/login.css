@@ -128,7 +128,7 @@ background:
   text-align: center;
   text-decoration: None;
   color: white;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 
@@ -156,4 +156,38 @@ background:
 
 .my-header {
   color: rgb(238, 238, 238);
+  font-size: 3rem;
 }
+
+
+.backDiv {
+  display: flex;
+  justify-content:center ;
+}
+
+.backDiv a {
+  color: white;
+  font-size: 12px;
+}
+
+.backDiv a {
+  text-align: center;
+  
+  color: white;
+  font-size: 18px;
+}
+
+
+ .backDiv a:hover {
+  color: rgb(203, 203, 203);
+}
+
+
+
+@media (max-width:550px ) {
+
+  .myLoginForm {
+    width: 90vw;
+  }
+}
+

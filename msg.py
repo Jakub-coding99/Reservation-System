@@ -3,7 +3,7 @@ import os
 from json import JSONDecodeError
 import time
 from app_factory import create_app
-from db_model import Errors,db
+from db_model import Log,db
 from datetime import datetime
 
 from dotenv import load_dotenv, find_dotenv
@@ -31,14 +31,14 @@ def retry(client_num,clients,token):
 
 
                     }
-            print("pokus" +  str(x))
+           
             request = requests.post("https://app.gosms.eu/api/v1/messages/test", headers=headers, json = body)
             request.raise_for_status()
             if request.status_code == 200:
-                break
+                msg_log(client_num[client_num],None,request.status_code)
             
         except requests.exceptions.HTTPError as err:
-            time.sleep(5)
+            time.sleep(60)
         
 
 
@@ -71,52 +71,38 @@ def send_message(clients):
                 "recipients": clients[x]["phone"],
                 
                 "channel": 469663,
+                "status" : "READY_TO_SEND"
 
 
                 }
      
                 request = requests.post("https://app.gosms.eu/api/v1/messages/test", headers=headers, json = body)
                 request.raise_for_status()
+                msg_log(clients[x],None,request.status_code)
                 print("sms sent")
+               
                 time.sleep(2)
+
             
         
             except requests.exceptions.HTTPError as err:
+                msg_log(clients[x],err,err.response.status_code)
+            
                 status_code = err.response.status_code
-                time_now = datetime.now()
-                formated_time = time_now.strftime("%d-%m-%Y, %H:%M:%S")
-                dt_obj = datetime.strptime(formated_time,"%d-%m-%Y, %H:%M:%S")
-                
-                if status_code  == 400:
                     
-                    with app.app_context():        
-                        new_error = Errors(client = clients[x], response_error = err.response.text,datetime = dt_obj)
-                        db.session.add(new_error)
-                        db.session.commit()
-                  
-                    # retry(x,clients,token)
-                    
-                    data_to_save = err.response.text
-                    
-                    
-                    print(clients[x])
-                    print(data_to_save)
-                    
-                    
-                elif (status_code == 429 or status_code == 500 or status_code == 502
+                if (status_code == 429 or status_code == 500 or status_code == 502
                     or status_code == 503 or status_code == 504):
                     retry(x,clients,token)
     
 
             except JSONDecodeError as json_err:
                 print(json_err)   
-
     
     except requests.exceptions.HTTPError as err:
         status_code = err.response.status_code
-        print(status_code)
         if status_code == 400:
-            print(err.response.text)
+            msg_log(clients[x],err,None,status_code)
+           
     except JSONDecodeError as json_err:
         print(json_err)   
     
@@ -175,20 +161,32 @@ def check_credit(token):
         print("email sent")
   
 
-clients = [
-    {"phone": "abc123", "reservation_time": "14:00"},  # invalid
-    {"phone": "730671753", "reservation_time": "15:00"}  # valid
-]
+# clients = [
+#          {"phone": "abc123", "reservation_time": "14:00"},  # invalid
+#         {"phone": "730671753", "reservation_time": "15:00"},  # valid
+   
 
-
-
-# send_message(clients = clients)
-
-
+# ]
 
 
 
 
-
+def msg_log(client,error,code):
+    time_now = datetime.now()
+    formated_time = time_now.strftime("%d-%m-%Y, %H:%M:%S")
+    dt_obj = datetime.strptime(formated_time,"%d-%m-%Y, %H:%M:%S")
+    
+    if code in (200,201):
+        response = {"status":"sent ok"}
+    
+    else:
+        response = error.response.text
+        
+    with app.app_context():        
+        new_response = Log(client = client, response = response,datetime = dt_obj)
+        db.session.add(new_response)
+        db.session.commit()
+   
 
         
+# send_message(clients = clients)

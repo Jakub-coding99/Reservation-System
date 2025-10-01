@@ -289,26 +289,7 @@ let toastFunctionSuccess = (msg,type,head) => {
         
 
        }
-// document.querySelector("#registerForm").addEventListener("submit", (event) => {
-//   event.preventDefault()
-//     async function  test()  {
-//     const response = await fetch("/register" ,{
-//       method : "POST"
-//     })
-//     const result = await response.json()
-//       console.log(result)
-//     if (result.success === true) {
-//       toastFunctionSuccess("chyba","warning","wanr")
-//        window.location.href = result.redirect
-//     }
-
-//     else {
-//        toastFunctionSuccess("chyba","info","wanr")
-//     }
-
-//   }
 
 
 
 
-// })

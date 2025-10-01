@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request,jsonify,Blueprint,redirect,url_for
-from db_model import db, Clients, User,Errors
+from db_model import db, Clients, User,Log
 import os
 from dotenv import load_dotenv, find_dotenv
 import datetime
@@ -30,7 +30,9 @@ def load_user(id):
 
 # clients = [
 #     {"phone": "abc123", "reservation_time": "14:00"},  # invalid
-#     {"phone": "730671753", "reservation_time": "15:00"}  # valid
+#     {"phone": "730671753", "reservation_time": "15:00"},  # valid
+
+
 # ]
 
 
@@ -66,8 +68,6 @@ def submit_data():
     
     db.session.add(new_client)
     db.session.commit()
-    # test_user = [{"reservation_time" : datetime_time,"phone": int(reservation["phone"])}]
-    # send_message(test_user)
     return jsonify({"status" : "successfuly created new user"}),201
 
 @app.route("/send_event", methods = ["GET","POST"])
@@ -81,9 +81,7 @@ def event_send():
             combine_dt = datetime.datetime.combine(client.date, client.time)
             date_to_iso = combine_dt.isoformat()
             
-            
-            
-            
+        
             clients = {
                 "id" : client.id,
                 "name" : client.name,
@@ -156,50 +154,54 @@ def choose_tomorrow_reservation():
     with app.app_context():
         all_clients = Clients.query.filter_by(date = day_after_today,msg_sent = False).all()
         for client in all_clients:
-            str_time = client.time.strftime("%H:%M")
-            client_info = {
-                    "phone" : client.phone,
-                    "reservation_time" : str_time
-                }
-            client.msg_sent = True
-            db.session.commit()
-            clients_to_send_notification.append(client_info)
+            if client.msg_sent == True:
+                continue
+            else:
+                str_time = client.time.strftime("%H:%M")
+                client_info = {
+                        "phone" : client.phone,
+                        "reservation_time" : str_time
+                    }
+                client.msg_sent = True
+                db.session.commit()
+                clients_to_send_notification.append(client_info)
         return clients_to_send_notification
 
-       
+
 def delete_after_reservation():
+       
         today = datetime.datetime.now().date()
         time_now = datetime.datetime.now().time()
-        
+       
         with app.app_context():
-            clients = Clients.query.filter_by(date = today).all()
+            clients = Clients.query.filter_by(date = today, msg_sent = True).all()
+            
             for client in clients:
                 reservation_cl = client.time
                 dt = datetime.datetime.combine(datetime.datetime.now(), reservation_cl)
-                dt_plus = dt + datetime.timedelta(minutes=30)
+                dt_plus = dt + datetime.timedelta(minutes=60) 
                 reservation = dt_plus.time()
                 time_now_toformat = datetime.datetime.now().time()
                 time_now = time_now_toformat.replace(microsecond=0)
-                
                 if time_now > reservation:
                     db.session.delete(client)
                     db.session.commit()
                 time.sleep(1)
 
 
-@app.route("/checkerrors")
+@app.route("/checklog")
 @login_required
-def check_errors():
-    err_logs = Errors.query.all()
+def check_log():
+    logs = Log.query.all()
     
-    return render_template("errors_log.html", err_logs = err_logs)
+    return render_template("log.html", logs = logs)
 
-@app.route("/checkerrors/<id>")
+@app.route("/checklog/<id>")
 def delete_error(id):
-    error = Errors.query.get(id)
-    db.session.delete(error)
+    log = Log.query.get(id)
+    db.session.delete(log)
     db.session.commit()
-    return redirect(url_for("check_errors"))
+    return redirect(url_for("check_log"))
 
 
 @app.route("/test")
@@ -211,8 +213,8 @@ def forgot_show():
 
 def automatic_sending_msg():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(automate_msg, "interval",  minutes = 30, id="job1")
-    scheduler.add_job(delete_after_reservation, "interval", minutes=30, id="job2")
+    scheduler.add_job(automate_msg, "interval",  minutes = 60, id="job1")
+    scheduler.add_job(delete_after_reservation, "interval", minutes = 60, id="job2")
     scheduler.start()
 
 
@@ -221,12 +223,13 @@ def automate_msg():
     # if clients:
     #     send_message(clients=clients)
     print("sent")
+    
 
 
 
 if __name__ == "__main__":
     automatic_sending_msg()
-    
+    # delete_after_reservation()
     app.run(host="0.0.0.0", port=5000)
     
 
