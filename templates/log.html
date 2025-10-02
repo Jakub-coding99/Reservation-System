@@ -16,7 +16,7 @@
             <td>{{log.client | tojson(indent = 2)}}></a></td>
             <td>{{log.response | tojson(indent = 2)}}</td>
             <td>{{log.datetime}}</td>
-            <td><a href="{{url_for('delete_error', id = log.id )}}">Smazat</a></td>
+            <td><a href="{{url_for('delete_err', id = log.id )}}">Smazat</a></td>
 
 
 

@@ -13,6 +13,7 @@ class Clients(db.Model):
     phone = db.Column(db.Integer)
     work_type = db.Column(db.String)
     msg_sent = db.Column(db.Boolean)
+    delete_error = db.Column(db.Boolean)
 
 
 class User(db.Model,UserMixin):

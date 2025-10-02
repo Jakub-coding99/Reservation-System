@@ -159,27 +159,31 @@ def choose_tomorrow_reservation():
             else:
                 str_time = client.time.strftime("%H:%M")
                 client_info = {
+                        "id" : client.id,
                         "phone" : client.phone,
                         "reservation_time" : str_time
                     }
-                client.msg_sent = True
                 db.session.commit()
                 clients_to_send_notification.append(client_info)
         return clients_to_send_notification
 
 
 def delete_after_reservation():
-       
+        print("jede")
         today = datetime.datetime.now().date()
         time_now = datetime.datetime.now().time()
        
         with app.app_context():
-            clients = Clients.query.filter_by(date = today, msg_sent = True).all()
-            
+            clients_sent = Clients.query.filter_by(date = today, msg_sent = True).all()
+            clients_not_sent = Clients.query.filter_by(date = today, delete_error = True).all()
+
+            clients = []
+            clients =  clients_sent + clients_not_sent 
+          
             for client in clients:
                 reservation_cl = client.time
                 dt = datetime.datetime.combine(datetime.datetime.now(), reservation_cl)
-                dt_plus = dt + datetime.timedelta(minutes=60) 
+                dt_plus = dt + datetime.timedelta(minutes=30) 
                 reservation = dt_plus.time()
                 time_now_toformat = datetime.datetime.now().time()
                 time_now = time_now_toformat.replace(microsecond=0)
@@ -197,7 +201,7 @@ def check_log():
     return render_template("log.html", logs = logs)
 
 @app.route("/checklog/<id>")
-def delete_error(id):
+def delete_err(id):
     log = Log.query.get(id)
     db.session.delete(log)
     db.session.commit()
@@ -219,17 +223,16 @@ def automatic_sending_msg():
 
 
 def automate_msg():
-    # clients = choose_tomorrow_reservation()
-    # if clients:
-    #     send_message(clients=clients)
-    print("sent")
+    clients = choose_tomorrow_reservation()
+    if clients:
+        send_message(clients=clients)
+
     
 
 
 
 if __name__ == "__main__":
     automatic_sending_msg()
-    # delete_after_reservation()
     app.run(host="0.0.0.0", port=5000)
     
 

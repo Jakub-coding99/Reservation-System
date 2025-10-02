@@ -3,7 +3,7 @@ import os
 from json import JSONDecodeError
 import time
 from app_factory import create_app
-from db_model import Log,db
+from db_model import Log,db,Clients
 from datetime import datetime
 
 from dotenv import load_dotenv, find_dotenv
@@ -34,8 +34,18 @@ def retry(client_num,clients,token):
            
             request = requests.post("https://app.gosms.eu/api/v1/messages/test", headers=headers, json = body)
             request.raise_for_status()
-            if request.status_code == 200:
-                msg_log(client_num[client_num],None,request.status_code)
+            
+            with app.app_context():
+                clients_id = Clients.query.get(clients[client_num]["id"])
+                
+                if request.status_code == 200:
+                    clients_id.msg_sent = True
+                    db.session.commit()
+                    msg_log(client_num[client_num],None,request.status_code)
+                
+                if x == 2:
+                    clients_id.delete_error = True
+                    db.session.commit()
             
         except requests.exceptions.HTTPError as err:
             time.sleep(60)
@@ -59,44 +69,49 @@ def send_message(clients):
         headers = {"Authorization": f"Bearer {token}"}
         
         for x in range(len(clients)):
-           
-            try:
-                
-                body = {
-                    
-                "message": "Dobrý den,\n"
-                            f"Připomínam vám rezervaci na zítra v {clients[x]['reservation_time']}.\n"
-                            f"S pozdravem {os.getenv("sender")}",
-                
-                "recipients": clients[x]["phone"],
-                
-                "channel": 469663,
-                "status" : "READY_TO_SEND"
-
-
-                }
-     
-                request = requests.post("https://app.gosms.eu/api/v1/messages/test", headers=headers, json = body)
-                request.raise_for_status()
-                msg_log(clients[x],None,request.status_code)
-                print("sms sent")
-               
-                time.sleep(2)
-
             
+            with app.app_context():
+                clients_id = Clients.query.get(clients[x]["id"])
+                try:
+                    
+                    body = {
+                        
+                    "message": "Dobrý den,\n"
+                                f"Připomínam vám rezervaci na zítra v {clients[x]['reservation_time']}.\n"
+                                f"S pozdravem {os.getenv("sender")}",
+                    
+                    "recipients": clients[x]["phone"],
+                    
+                    "channel": 469663,
+                    "status" : "READY_TO_SEND"
+
+
+                    }
         
-            except requests.exceptions.HTTPError as err:
-                msg_log(clients[x],err,err.response.status_code)
-            
-                status_code = err.response.status_code
-                    
-                if (status_code == 429 or status_code == 500 or status_code == 502
-                    or status_code == 503 or status_code == 504):
-                    retry(x,clients,token)
-    
+                    request = requests.post("https://app.gosms.eu/api/v1/messages/test", headers=headers, json = body)
+                    request.raise_for_status()
+                    msg_log(clients[x],None,request.status_code)
+                    clients_id.msg_sent = True
+                    db.session.commit()
+                    time.sleep(2)
 
-            except JSONDecodeError as json_err:
-                print(json_err)   
+                
+            
+                except requests.exceptions.HTTPError as err:
+                    msg_log(clients[x],err,err.response.status_code)
+                    status_code = err.response.status_code
+
+                    if status_code == 400:
+                        clients_id.delete_error = True
+                        db.session.commit()
+                        
+                    elif (status_code == 429 or status_code == 500 or status_code == 502
+                        or status_code == 503 or status_code == 504):
+                        retry(x,clients,token)
+        
+
+                except JSONDecodeError as json_err:
+                    print(json_err)   
     
     except requests.exceptions.HTTPError as err:
         status_code = err.response.status_code
