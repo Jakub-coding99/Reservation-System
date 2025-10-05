@@ -7,7 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from msg import send_message
 import time
 from auth.login_actual import auth_bp
-from flask_login import UserMixin,login_user,logout_user,LoginManager,login_required, current_user
+from flask_login import LoginManager,login_required, current_user
 from app_factory import create_app
 
 
@@ -28,17 +28,6 @@ with app.app_context():
 def load_user(id):
     return User.query.get(int(id))
 
-# clients = [
-#     {"phone": "abc123", "reservation_time": "14:00"},  # invalid
-#     {"phone": "730671753", "reservation_time": "15:00"},  # valid
-
-
-# ]
-
-
-
-# send_message(clients = clients)
-
 
 @app.route("/")
 @login_required
@@ -51,11 +40,6 @@ def submit_data():
     reservation = request.get_json()
     if reservation is None:
         return jsonify({"error":"data is missing"}),400
-    
-
-    # print(reservation)
-    # work_types = {"1" : "Stříhání", "2" : "Barva + Melír","3" : "Tónování", "4" : "Barva + Melír + Foukání"}
-    # work = work_types[reservation["work"]]
 
     format_date = "%Y-%m-%d"
     datetime_date = datetime.datetime.strptime(reservation["date"], format_date)
@@ -91,8 +75,6 @@ def event_send():
             }
             list_of_clients.append(clients)
             
-        
-        
         return jsonify(list_of_clients)
 
 
@@ -169,7 +151,6 @@ def choose_tomorrow_reservation():
 
 
 def delete_after_reservation():
-        print("jede")
         today = datetime.datetime.now().date()
         time_now = datetime.datetime.now().time()
        
@@ -206,12 +187,6 @@ def delete_err(id):
     db.session.delete(log)
     db.session.commit()
     return redirect(url_for("check_log"))
-
-
-@app.route("/test")
-def forgot_show():
-    return render_template("forgot_pass.html")
-
 
 
 
