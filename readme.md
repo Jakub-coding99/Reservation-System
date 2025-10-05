@@ -13,6 +13,26 @@ Tato aplikace umožňuje uživateli vytvářet a spravovat rezervace přes webov
 
 ---
 
+## 🖼️ Ukázky / Screenshots
+
+**Přihlášení / Login**
+![Image](https://github.com/user-attachments/assets/017e32bf-1bda-4dd3-bbac-7c13bef1cd3e)
+
+**Hlavní stránka / Main page**
+
+![Image](https://github.com/user-attachments/assets/429ed65f-584e-4e94-bba0-c7ffd74a8596)
+
+**Úprava rezervace / Edit reservation**
+![Image](https://github.com/user-attachments/assets/ed4faccb-207f-493f-ab8d-95e232b5a273)
+
+**Responzivita / Responsive design**
+
+![Image](https://github.com/user-attachments/assets/4375db10-b4c5-4952-aa75-711f915e4e7e)
+
+![Image](https://github.com/user-attachments/assets/aa71981e-92a9-4d56-9098-d02a3feb022f)
+
+---
+
 ## ⚙️ Použité technologie
 
 - **Flask** – backend webového serveru
@@ -53,8 +73,7 @@ Tato aplikace umožňuje uživateli vytvářet a spravovat rezervace přes webov
      ```bash
     python main.py
      ```
-
-
+---
 
 # Reservation System (ENGLISH)
 
@@ -70,17 +89,6 @@ This app allows users to create and manage reservations through a simple web int
 - The system automatically sends SMS reminders to clients 24 hours before their reservation using the GoSMS API.
 
 ---
-
-## 🖼️ Ukázky / Screenshots
-
-**Přihlášení / Login**
-
-**Hlavní stránka / Main page**
-
-**Úprava rezervace / Edit reservation**
-
-**Responzivita / Responsive design**
-
 
 
 ## ⚙️ Technologies Used
