@@ -27,9 +27,9 @@ Tato aplikace umožňuje uživateli vytvářet a spravovat rezervace přes webov
 
 **Responzivita / Responsive design**
 
-![Image](https://github.com/user-attachments/assets/4375db10-b4c5-4952-aa75-711f915e4e7e)
+![Image](https://github.com/user-attachments/assets/01093c01-aa5d-4ef7-a006-5d98dcf156c4)
 
-![Image](https://github.com/user-attachments/assets/aa71981e-92a9-4d56-9098-d02a3feb022f)
+![Image](https://github.com/user-attachments/assets/4b54d009-959a-4c70-90e7-8924ca1729ff)
 
 ---
 
